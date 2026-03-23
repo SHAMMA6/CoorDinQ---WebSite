@@ -65,24 +65,21 @@ export default function Hero() {
         <motion.img
           src={logo}
           alt="CoorDinQ"
-          className="w-full max-w-md md:max-w-lg"
+          className="w-48 sm:w-64 md:w-80 lg:w-full max-w-md md:max-w-lg"
           {...fadeUp(0)}
         />
 
         {/* Slogan with typing effect */}
         <motion.h1
-          className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mt-8 tracking-tight leading-tight min-h-[2.4em]"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mt-6 md:mt-8 tracking-tight leading-tight whitespace-nowrap"
           {...fadeUp(0.25)}
         >
-          We{' '}
-          <span className="text-teal">
-            <TypingText />
-          </span>
+          We <TypingText />
         </motion.h1>
 
         {/* Summary */}
         <motion.p
-          className="text-base md:text-lg text-white/60 mt-6 max-w-xl leading-relaxed"
+          className="text-sm sm:text-base md:text-lg text-white/60 mt-4 md:mt-6 max-w-xl leading-relaxed px-2"
           {...fadeUp(0.45)}
         >
           We design and develop cutting-edge digital products, from robust web
@@ -92,7 +89,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          className="flex flex-wrap gap-4 mt-10 justify-center"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 md:mt-10 justify-center w-full sm:w-auto px-4 sm:px-0"
           {...fadeUp(0.65)}
         >
           <Button variant="primary" size="lg">

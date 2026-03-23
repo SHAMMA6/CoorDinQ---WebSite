@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const variants = {
-  primary: 'bg-teal text-navy-dark font-semibold hover:bg-teal-light',
-  secondary: 'bg-white/10 text-white border border-white/20 hover:border-white/40 hover:bg-white/15',
+  primary: 'bg-teal text-navy-dark font-semibold hover:bg-teal-dark',
+  secondary: 'bg-white/10 text-white border border-white/20 hover:border-white/30 hover:bg-white/5',
 }
 
 const sizes = {
