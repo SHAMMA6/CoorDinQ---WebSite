@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Navbar from './components/layout/Navbar'
 import Hero from './components/sections/Hero'
+import StickyMetricsSection from './components/sections/StickyMetricsSection'
 
 function App() {
   const [scrolled, setScrolled] = useState(false)
@@ -15,8 +16,7 @@ function App() {
     <div className="min-h-screen bg-navy">
       <Navbar scrolled={scrolled} />
       <Hero />
-      {/* Spacer to allow scroll testing */}
-      <div className="h-screen bg-navy" />
+      <StickyMetricsSection />
     </div>
   )
 }
