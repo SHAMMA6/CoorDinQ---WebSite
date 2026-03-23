@@ -1,5 +1,37 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Facundo';
+  src: url('./fonts/Fontspring-DEMO-facundo-regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Facundo';
+  src: url('./fonts/Fontspring-DEMO-facundo-semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Facundo';
+  src: url('./fonts/Fontspring-DEMO-facundo-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Facundo';
+  src: url('./fonts/Fontspring-DEMO-facundo-black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-navy: #1B2838;
   --color-navy-light: #243447;
@@ -8,7 +40,7 @@
   --color-teal-light: #5CD4C6;
   --color-teal-dark: #2A9A8D;
 
-  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Facundo', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
