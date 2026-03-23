@@ -1,8 +1,15 @@
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import AnimatedBackground from './AnimatedBackground'
+import LightRays from '../reactbits/LightRays'
 import Button from '../ui/Button'
 import logo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
+
+const MotionSpan = motion.span
+const MotionImg = motion.img
+const MotionH1 = motion.h1
+const MotionP = motion.p
+const MotionDiv = motion.div
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -46,8 +53,8 @@ function TypingText() {
   return (
     <span className="text-teal">
       {displayText}
-      <motion.span
-        className="inline-block w-[3px] h-[1em] bg-teal ml-1 align-middle rounded-full"
+      <MotionSpan
+        className="ml-1 inline-block h-[1em] w-[3px] rounded-full bg-teal align-middle"
         animate={{ opacity: [1, 0] }}
         transition={{ duration: 0.6, repeat: Infinity, repeatType: 'reverse' }}
       />
@@ -56,49 +63,69 @@ function TypingText() {
 }
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6">
-      <AnimatedBackground />
+  const reduceMotion = useReducedMotion()
 
-      <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
-        {/* Logo */}
-        <motion.img
+  return (
+    <section id="home" className="relative flex min-h-screen flex-col items-center justify-center px-6">
+      <AnimatedBackground />
+      {!reduceMotion && (
+        <div className="pointer-events-none absolute inset-0 z-[4] opacity-70">
+          <LightRays
+            raysOrigin="top-center"
+            raysColor="#3ABFB0"
+            raysSpeed={0.75}
+            lightSpread={1.1}
+            rayLength={1.3}
+            pulsating={false}
+            fadeDistance={1.05}
+            saturation={1.1}
+            followMouse
+            mouseInfluence={0.05}
+            noiseAmount={0.03}
+            distortion={0.04}
+          />
+        </div>
+      )}
+
+      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
+        <MotionImg
           src={logo}
           alt="CoorDinQ"
-          className="w-48 sm:w-64 md:w-80 lg:w-full max-w-md md:max-w-lg"
+          className="w-48 max-w-md sm:w-64 md:w-80 md:max-w-lg lg:w-full"
           {...fadeUp(0)}
         />
 
-        {/* Slogan with typing effect */}
-        <motion.h1
-          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mt-6 md:mt-8 tracking-tight leading-tight whitespace-nowrap"
+        <MotionH1
+          className="mt-6 whitespace-nowrap text-2xl font-extrabold leading-tight tracking-tight text-white sm:text-3xl md:mt-8 md:text-5xl lg:text-6xl"
           {...fadeUp(0.25)}
         >
           We <TypingText />
-        </motion.h1>
+        </MotionH1>
 
-        {/* Summary */}
-        <motion.p
-          className="text-sm sm:text-base md:text-lg text-white/60 mt-4 md:mt-6 max-w-xl leading-relaxed px-2"
+        <MotionP
+          className="mt-4 max-w-xl px-2 text-sm leading-relaxed text-white/60 sm:text-base md:mt-6 md:text-lg"
           {...fadeUp(0.45)}
         >
           We design and develop cutting-edge digital products, from robust web
-          platforms to intelligent systems — delivering technology solutions
+          platforms to intelligent systems - delivering technology solutions
           that drive growth and innovation.
-        </motion.p>
+        </MotionP>
 
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 md:mt-10 justify-center w-full sm:w-auto px-4 sm:px-0"
+        <MotionDiv
+          className="mt-8 flex w-full flex-col justify-center gap-3 px-4 sm:mt-10 sm:w-auto sm:flex-row sm:gap-4 sm:px-0"
           {...fadeUp(0.65)}
         >
-          <Button variant="primary" size="lg">
-            Get Started
-          </Button>
-          <Button variant="secondary" size="lg">
-            Our Projects
-          </Button>
-        </motion.div>
+          <a href="#contact">
+            <Button variant="primary" size="lg">
+              Get Started
+            </Button>
+          </a>
+          <a href="#projects">
+            <Button variant="secondary" size="lg">
+              Our Projects
+            </Button>
+          </a>
+        </MotionDiv>
       </div>
     </section>
   )

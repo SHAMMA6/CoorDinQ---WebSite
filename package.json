@@ -12,6 +12,9 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
     "framer-motion": "^12.38.0",
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.20",
+    "ogl": "^1.0.11",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwindcss": "^4.2.2"

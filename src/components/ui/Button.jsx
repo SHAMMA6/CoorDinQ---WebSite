@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
+const MotionButton = motion.button
+const MotionSpan = motion.span
+
 const variants = {
   primary: 'bg-teal text-navy-dark font-semibold hover:bg-teal-dark',
   secondary: 'bg-white/10 text-white border border-white/20 hover:border-white/30 hover:bg-white/5',
@@ -35,7 +38,7 @@ export default function Button({
   }
 
   return (
-    <motion.button
+    <MotionButton
       className={`relative overflow-hidden rounded-full cursor-pointer transition-all duration-300 ${variants[variant]} ${sizes[size]} ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -46,7 +49,7 @@ export default function Button({
       <span className="relative z-10">{children}</span>
       <AnimatePresence>
         {ripples.map((ripple) => (
-          <motion.span
+          <MotionSpan
             key={ripple.id}
             className="absolute rounded-full pointer-events-none"
             style={{
@@ -70,6 +73,6 @@ export default function Button({
           />
         ))}
       </AnimatePresence>
-    </motion.button>
+    </MotionButton>
   )
 }

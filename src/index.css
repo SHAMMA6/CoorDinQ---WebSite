@@ -53,6 +53,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+section[id],
+footer[id] {
+  scroll-margin-top: 6.25rem;
+}
+
 /* Text selection highlight */
 ::selection {
   background-color: rgba(58, 191, 176, 0.35);

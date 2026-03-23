@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 
+const MotionDiv = motion.div
+
 const orbs = [
   {
     size: 600,
@@ -64,7 +66,7 @@ export default function AnimatedBackground() {
 
       {/* Floating orbs */}
       {orbs.map((orb, i) => (
-        <motion.div
+        <MotionDiv
           key={i}
           className="absolute rounded-full"
           style={{

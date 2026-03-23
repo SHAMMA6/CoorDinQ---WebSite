@@ -5,10 +5,17 @@ import qLogo from '../../assets/Main Q.png'
 import coordin from '../../assets/CoorDinQ Logo Wihtout Main Q and Q Shadow .png'
 
 const navLinks = [
-  { label: 'Home', href: '#' },
+  { label: 'Home', href: '#home' },
+  { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
 ]
+
+const MotionNav = motion.nav
+const MotionDiv = motion.div
+const MotionImg = motion.img
+const MotionSpan = motion.span
+const MotionA = motion.a
 
 export default function Navbar({ scrolled }) {
   const [hoveredQ, setHoveredQ] = useState(false)
@@ -16,13 +23,13 @@ export default function Navbar({ scrolled }) {
 
   return (
     <>
-      <motion.nav
+      <MotionNav
         className="fixed top-4 left-1/2 z-50 -translate-x-1/2 w-[calc(100%-2rem)] max-w-fit"
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
       >
-        <motion.div
+        <MotionDiv
           className="flex items-center gap-2 rounded-full px-3 py-2 border border-white/[0.08]"
           animate={{
             backgroundColor: scrolled ? 'rgba(20, 30, 44, 0.6)' : 'rgba(20, 30, 44, 0.35)',
@@ -35,13 +42,13 @@ export default function Navbar({ scrolled }) {
         >
           {/* Logo: CoorDin text + circular Q */}
           <a
-            href="#"
+            href="#home"
             className="flex items-center shrink-0"
             onMouseEnter={() => setHoveredQ(true)}
             onMouseLeave={() => setHoveredQ(false)}
           >
             {/* CoorDin text - collapses on scroll */}
-            <motion.div
+            <MotionDiv
               className="overflow-hidden flex items-center"
               animate={{
                 width: scrolled ? 0 : 'auto',
@@ -55,11 +62,11 @@ export default function Navbar({ scrolled }) {
                 alt="CoorDin"
                 className="h-5 sm:h-6 object-contain object-left"
               />
-            </motion.div>
+            </MotionDiv>
 
             {/* Circular Q - always visible */}
             <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden shrink-0">
-              <motion.img
+              <MotionImg
                 src={qLogo}
                 alt="Q"
                 className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
@@ -92,17 +99,17 @@ export default function Navbar({ scrolled }) {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            <motion.span
+            <MotionSpan
               className="block w-5 h-[2px] bg-white/70 rounded-full origin-center"
               animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3 }}
             />
-            <motion.span
+            <MotionSpan
               className="block w-5 h-[2px] bg-white/70 rounded-full"
               animate={mobileOpen ? { opacity: 0 } : { opacity: 1 }}
               transition={{ duration: 0.2 }}
             />
-            <motion.span
+            <MotionSpan
               className="block w-5 h-[2px] bg-white/70 rounded-full origin-center"
               animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
               transition={{ duration: 0.3 }}
@@ -112,26 +119,28 @@ export default function Navbar({ scrolled }) {
           {/* CTA Button - appears on scroll (desktop only) */}
           <AnimatePresence>
             {scrolled && (
-              <motion.div
+              <MotionDiv
                 initial={{ width: 0, opacity: 0 }}
                 animate={{ width: 'auto', opacity: 1 }}
                 exit={{ width: 0, opacity: 0 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
                 className="overflow-hidden hidden sm:block"
               >
-                <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
-                  Contact Us
-                </Button>
-              </motion.div>
+                <a href="#contact">
+                  <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
+                    Contact Us
+                  </Button>
+                </a>
+              </MotionDiv>
             )}
           </AnimatePresence>
-        </motion.div>
-      </motion.nav>
+        </MotionDiv>
+      </MotionNav>
 
       {/* Mobile dropdown menu */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
+          <MotionDiv
             className="fixed top-[4.5rem] left-4 right-4 z-40 sm:hidden rounded-2xl border border-white/[0.08] overflow-hidden"
             style={{ backdropFilter: 'blur(40px) saturate(1.8)', WebkitBackdropFilter: 'blur(40px) saturate(1.8)' }}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -141,7 +150,7 @@ export default function Navbar({ scrolled }) {
           >
             <div className="flex flex-col py-3 px-2">
               {navLinks.map((link, i) => (
-                <motion.a
+                <MotionA
                   key={link.label}
                   href={link.href}
                   className="px-4 py-3 text-base font-semibold text-white/70 hover:text-white transition-colors duration-200 rounded-xl hover:bg-white/5"
@@ -151,15 +160,17 @@ export default function Navbar({ scrolled }) {
                   transition={{ delay: i * 0.05 }}
                 >
                   {link.label}
-                </motion.a>
+                </MotionA>
               ))}
               <div className="px-4 pt-2 pb-1">
-                <Button variant="primary" size="sm" className="w-full" onClick={() => setMobileOpen(false)}>
-                  Contact Us
-                </Button>
+                <a href="#contact" onClick={() => setMobileOpen(false)}>
+                  <Button variant="primary" size="sm" className="w-full">
+                    Contact Us
+                  </Button>
+                </a>
               </div>
             </div>
-          </motion.div>
+          </MotionDiv>
         )}
       </AnimatePresence>
     </>
