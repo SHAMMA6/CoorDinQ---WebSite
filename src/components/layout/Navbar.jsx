@@ -56,7 +56,7 @@ export default function Navbar({ scrolled }) {
           </motion.div>
 
           {/* Circular Q - always visible */}
-          <div className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden bg-navy-dark/50 shrink-0">
+          <div className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden shrink-0">
             <motion.img
               src={qLogo}
               alt="Q"

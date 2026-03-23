@@ -52,3 +52,33 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Text selection highlight */
+::selection {
+  background-color: rgba(58, 191, 176, 0.35);
+  color: #ffffff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111C27;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3ABFB0 0%, #2A9A8D 100%);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5CD4C6 0%, #3ABFB0 100%);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3ABFB0 #111C27;
+}
