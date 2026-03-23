@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import AnimatedBackground from './AnimatedBackground'
 import Button from '../ui/Button'
-import logo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
+import logo from '../../assets/Main Logo.png'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },

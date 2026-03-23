@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '../ui/Button'
 import qLogo from '../../assets/Main Q.png'
+import coordin from '../../assets/CoorDinQ Logo Wihtout Main Q and Q Shadow .png'
 
 const navLinks = [
   { label: 'Home', href: '#' },
@@ -30,24 +31,44 @@ export default function Navbar({ scrolled }) {
         transition={{ duration: 0.4, ease: 'easeOut' }}
         style={{ backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}
       >
-        {/* Q Logo with spin animation */}
+        {/* Logo: CoorDin text + circular Q */}
         <a
           href="#"
-          className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden shrink-0 bg-navy-dark/50"
+          className="flex items-center shrink-0"
           onMouseEnter={() => setHoveredQ(true)}
           onMouseLeave={() => setHoveredQ(false)}
         >
-          <motion.img
-            src={qLogo}
-            alt="Q"
-            className="w-7 h-7 object-contain"
-            animate={{ rotate: 360 }}
-            transition={{
-              duration: hoveredQ ? 2 : 12,
-              repeat: Infinity,
-              ease: 'linear',
+          {/* CoorDin text - collapses on scroll */}
+          <motion.div
+            className="overflow-hidden flex items-center"
+            animate={{
+              width: scrolled ? 0 : 'auto',
+              opacity: scrolled ? 0 : 1,
+              marginRight: scrolled ? 0 : 4,
             }}
-          />
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
+          >
+            <img
+              src={coordin}
+              alt="CoorDin"
+              className="h-6 object-contain object-left"
+            />
+          </motion.div>
+
+          {/* Circular Q - always visible */}
+          <div className="flex items-center justify-center w-9 h-9 rounded-full overflow-hidden bg-navy-dark/50 shrink-0">
+            <motion.img
+              src={qLogo}
+              alt="Q"
+              className="w-7 h-7 object-contain"
+              animate={{ rotate: 360 }}
+              transition={{
+                duration: hoveredQ ? 2 : 12,
+                repeat: Infinity,
+                ease: 'linear',
+              }}
+            />
+          </div>
         </a>
 
         {/* Nav Links */}
@@ -56,7 +77,7 @@ export default function Navbar({ scrolled }) {
             <a
               key={link.label}
               href={link.href}
-              className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white transition-colors duration-200 rounded-full hover:bg-white/5"
+              className="px-4 py-2 text-sm font-semibold text-white/70 hover:text-white transition-colors duration-200 rounded-full hover:bg-white/5"
             >
               {link.label}
             </a>
