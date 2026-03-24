@@ -10,7 +10,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
 const fallbackProjects = [
   {
-    id: 1, title: 'Pulse Commerce', category: 'Web Platform',
+    id: 1, title: 'Pulse Commerce', category: 'Website',
     description: 'A high-performance e-commerce platform built for scale. Features real-time inventory management, AI-powered recommendations, and seamless payment integration across 40+ countries.',
     tech: ['React', 'Node.js', 'PostgreSQL', 'Redis', 'Stripe'],
     gradient: 'from-teal/30 via-navy-light/40 to-navy-dark/90',
@@ -19,7 +19,7 @@ const fallbackProjects = [
     featured_image: null, images: [], video_url: null,
   },
   {
-    id: 2, title: 'Orbit HQ', category: 'Custom Software',
+    id: 2, title: 'Orbit HQ', category: 'Software',
     description: 'Enterprise workspace management platform that unifies team communication, project tracking, and resource allocation into a single intelligent dashboard.',
     tech: ['Next.js', 'TypeScript', 'GraphQL', 'PostgreSQL'],
     gradient: 'from-[#2D7D74]/40 via-[#243447]/50 to-[#111C27]/95',
@@ -28,7 +28,7 @@ const fallbackProjects = [
     featured_image: null, images: [], video_url: null,
   },
   {
-    id: 3, title: 'FleetFlow App', category: 'Mobile Application',
+    id: 3, title: 'FleetFlow App', category: 'Mobile App',
     description: 'Real-time fleet management mobile app with GPS tracking, route optimization, and predictive maintenance alerts for logistics companies.',
     tech: ['React Native', 'Express', 'MongoDB', 'Socket.io', 'Google Maps API'],
     gradient: 'from-[#3ABFB0]/35 via-[#2A9A8D]/30 to-[#111C27]/95',
@@ -37,7 +37,7 @@ const fallbackProjects = [
     featured_image: null, images: [], video_url: null,
   },
   {
-    id: 4, title: 'Peak Studio', category: 'UI/UX System',
+    id: 4, title: 'Peak Studio', category: 'Website',
     description: 'A comprehensive design system and component library powering 12 products. Includes Figma integration, accessibility-first components, and automated documentation.',
     tech: ['Figma', 'Storybook', 'React', 'Tailwind CSS', 'Chromatic'],
     gradient: 'from-[#415A77]/45 via-[#243447]/50 to-[#0E1721]/95',
@@ -200,7 +200,7 @@ export default function ProjectsPage() {
       <Navbar scrolled={scrolled} />
 
       {/* Hero header */}
-      <section className="relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+      <section className="relative overflow-hidden pt-32 pb-16 md:pt-40 md:pb-24">
         <AnimatedBackground />
         <div
           className="pointer-events-none absolute inset-0"
@@ -208,37 +208,46 @@ export default function ProjectsPage() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 mx-auto max-w-6xl px-6 md:px-10">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+          {/* Back link */}
           <motion.div
-            initial={reduceMotion ? {} : { opacity: 0, y: 30 }}
+            initial={reduceMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
           >
-            <Link to="/" className="group mb-8 inline-flex items-center gap-2 text-sm font-semibold text-white/50 transition-colors hover:text-teal-light">
+            <Link to="/" className="group mb-10 inline-flex items-center gap-2 text-sm font-semibold text-white/50 transition-colors hover:text-teal-light">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:-translate-x-1">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
               Back to Home
             </Link>
+          </motion.div>
 
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
+          {/* Title block */}
+          <motion.div
+            initial={reduceMotion ? {} : { opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-light/90">
               Our Work
             </p>
-            <h1 className="mt-4 text-4xl font-black tracking-tight text-white md:text-6xl lg:text-7xl">
-              Projects
+            <h1 className="mt-5 text-5xl font-black tracking-tight text-white md:text-7xl lg:text-8xl">
+              Portfolio
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/55 md:text-lg">
+            <div className="mx-auto mt-3 h-1 w-16 rounded-full bg-gradient-to-r from-teal to-teal-light md:w-20" />
+            <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-white/55 md:text-base">
               A curated collection of digital products we've designed, engineered, and
-              launched — each built to solve real problems and deliver measurable outcomes.
+              launched — each solving real problems with measurable outcomes.
             </p>
           </motion.div>
 
-          {/* Category filter */}
+          {/* Category filter — centered */}
           <motion.div
             initial={reduceMotion ? {} : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-            className="mt-10 flex flex-wrap gap-2"
+            transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
+            className="mt-10 flex flex-wrap justify-center gap-2"
           >
             {categories.map((cat) => (
               <button

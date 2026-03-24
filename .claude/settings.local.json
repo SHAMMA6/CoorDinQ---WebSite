@@ -12,7 +12,18 @@
       "Bash(node index.js)",
       "WebFetch(domain:reactbits.dev)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(npx vite:*)"
+      "Bash(npx vite:*)",
+      "Bash(curl -s -X PUT http://localhost:3001/api/projects/1 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Website\"\"\"\"}')",
+      "Bash(head -c 50 curl -s -X PUT http://localhost:3001/api/projects/2 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Software\"\"\"\"}')",
+      "Bash(head -c 50 curl -s -X PUT http://localhost:3001/api/projects/3 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Mobile App\"\"\"\"}')",
+      "Bash(head -c 50 curl -s -X PUT http://localhost:3001/api/projects/4 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Website\"\"\"\"}')",
+      "Bash(head -c 50 curl -s -X PUT http://localhost:3001/api/projects/5 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Digital Marketing\"\"\"\"}')",
+      "Bash(python -c \"import json,sys; [print\\(f''''id:{p[\"\"id\"\"]} cat:{p[\"\"category\"\"]} title:{p[\"\"title\"\"]}''''\\) for p in json.load\\(sys.stdin\\)]\")",
+      "Bash(python -c \"import json,sys; [print\\(f''''id:{p[\"\"id\"\"]} cat:{p.get\\(\"\"category\"\",\"\"?\"\"\\)}''''\\) for p in json.load\\(sys.stdin\\)]\")",
+      "Bash(curl -s http://localhost:3001/api/projects/6)",
+      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(f''''title: {p.get\\(\"\"title\"\",\"\"?\"\"\\)} | category: {p.get\\(\"\"category\"\",\"\"?\"\"\\)}''''\\)\")",
+      "Bash(curl -s -X PUT http://localhost:3001/api/projects/6 -H \"Content-Type: application/json\" -d '{\"\"\"\"category\"\"\"\":\"\"\"\"Website\"\"\"\"}')",
+      "Bash(python -c \"import json,sys; p=json.load\\(sys.stdin\\); print\\(f''''updated: {p.get\\(\"\"category\"\",\"\"?\"\"\\)}''''\\)\")"
     ]
   }
 }

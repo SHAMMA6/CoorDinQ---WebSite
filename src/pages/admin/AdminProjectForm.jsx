@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
-const CATEGORIES = ['Web Platform', 'Custom Software', 'Mobile Application', 'UI/UX System', 'Digital Marketing']
+const CATEGORIES = ['Website', 'Software', 'Mobile App', 'Digital Marketing']
 const STATUSES = ['Live', 'In Progress']
 
 export default function AdminProjectForm() {

@@ -11,25 +11,25 @@ import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 const projects = [
   {
     title: 'Pulse Commerce',
-    category: 'Web Platform',
+    category: 'Website',
     image: heroImage,
     gradient: 'from-teal/30 via-navy-light/40 to-navy-dark/90',
   },
   {
     title: 'Orbit HQ',
-    category: 'Custom Software',
+    category: 'Software',
     image: mainLogo,
     gradient: 'from-[#2D7D74]/40 via-[#243447]/50 to-[#111C27]/95',
   },
   {
     title: 'FleetFlow App',
-    category: 'Mobile Application',
+    category: 'Mobile App',
     image: null,
     gradient: 'from-[#3ABFB0]/35 via-[#2A9A8D]/30 to-[#111C27]/95',
   },
   {
     title: 'Peak Studio',
-    category: 'UI/UX System',
+    category: 'Website',
     image: textLogo,
     gradient: 'from-[#415A77]/45 via-[#243447]/50 to-[#0E1721]/95',
   },
@@ -116,7 +116,7 @@ export default function ProjectsSection() {
           <div className="flex items-center gap-12">
             <div className="flex-1">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
-                Projects
+                Portfolio
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
                 Selected product outcomes
@@ -127,7 +127,7 @@ export default function ProjectsSection() {
               </p>
               <div className="mt-8">
                 <Link to="/projects">
-                  <Button variant="primary" size="lg">Project Page</Button>
+                  <Button variant="primary" size="lg">View Portfolio</Button>
                 </Link>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function ProjectsSection() {
           <>
             <div className="mx-auto max-w-2xl text-center">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
-                Projects
+                Portfolio
               </p>
               <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
                 Selected product outcomes
@@ -167,7 +167,7 @@ export default function ProjectsSection() {
               </p>
               <div className="mt-6">
                 <Link to="/projects">
-                  <Button variant="primary" size="md">Project Page</Button>
+                  <Button variant="primary" size="md">View Portfolio</Button>
                 </Link>
               </div>
             </div>

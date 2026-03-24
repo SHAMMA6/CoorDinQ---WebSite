@@ -7,7 +7,7 @@ import coordin from '../../assets/CoorDinQ Logo Wihtout Main Q and Q Shadow .png
 
 const navLinks = [
   { label: 'Home', to: '/', hash: '#home' },
-  { label: 'Projects', to: '/projects' },
+  { label: 'Portfolio', to: '/projects' },
 ]
 
 const MotionNav = motion.nav
