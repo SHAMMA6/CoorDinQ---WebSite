@@ -1,58 +1,8 @@
-import { motion } from 'framer-motion'
-
-const MotionDiv = motion.div
-
-const orbs = [
-  {
-    size: 600,
-    color: 'rgba(58, 191, 176, 0.12)',
-    initialX: '-10%',
-    initialY: '-20%',
-    animate: {
-      x: ['0%', '15%', '-5%', '0%'],
-      y: ['0%', '-10%', '12%', '0%'],
-      scale: [1, 1.2, 0.9, 1],
-    },
-    duration: 22,
-  },
-  {
-    size: 500,
-    color: 'rgba(58, 191, 176, 0.08)',
-    initialX: '60%',
-    initialY: '10%',
-    animate: {
-      x: ['0%', '-12%', '8%', '0%'],
-      y: ['0%', '15%', '-8%', '0%'],
-      scale: [1, 0.85, 1.15, 1],
-    },
-    duration: 18,
-  },
-  {
-    size: 450,
-    color: 'rgba(58, 191, 176, 0.06)',
-    initialX: '30%',
-    initialY: '60%',
-    animate: {
-      x: ['0%', '10%', '-15%', '0%'],
-      y: ['0%', '-12%', '5%', '0%'],
-      scale: [1, 1.1, 0.95, 1],
-    },
-    duration: 25,
-  },
-  {
-    size: 350,
-    color: 'rgba(92, 212, 198, 0.07)',
-    initialX: '-5%',
-    initialY: '50%',
-    animate: {
-      x: ['0%', '20%', '-8%', '0%'],
-      y: ['0%', '-15%', '10%', '0%'],
-      scale: [1, 1.15, 0.9, 1],
-    },
-    duration: 20,
-  },
-]
-
+/**
+ * AnimatedBackground — GPU-friendly CSS-only version
+ * Uses CSS animations + will-change to keep everything on the compositor layer.
+ * Reduced blur on mobile to prevent GPU stalls.
+ */
 export default function AnimatedBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden z-0">
@@ -64,27 +14,19 @@ export default function AnimatedBackground() {
         }}
       />
 
-      {/* Floating orbs */}
-      {orbs.map((orb, i) => (
-        <MotionDiv
-          key={i}
-          className="absolute rounded-full"
-          style={{
-            width: orb.size,
-            height: orb.size,
-            left: orb.initialX,
-            top: orb.initialY,
-            background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
-            filter: 'blur(60px)',
-          }}
-          animate={orb.animate}
-          transition={{
-            duration: orb.duration,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-        />
-      ))}
+      {/* Floating orbs — CSS animations only, no JS */}
+      <div
+        className="animated-orb animated-orb-1"
+        aria-hidden="true"
+      />
+      <div
+        className="animated-orb animated-orb-2"
+        aria-hidden="true"
+      />
+      <div
+        className="animated-orb animated-orb-3"
+        aria-hidden="true"
+      />
 
       {/* Subtle grid pattern */}
       <div

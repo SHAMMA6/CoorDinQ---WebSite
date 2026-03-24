@@ -1,5 +1,7 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import './ElectricBorder.css';
+
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
 
 const ElectricBorder = ({
   children,
@@ -15,6 +17,19 @@ const ElectricBorder = ({
   const animationRef = useRef(null);
   const timeRef = useRef(0);
   const lastFrameTimeRef = useRef(0);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Intersection Observer — only animate when in viewport
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.05, rootMargin: '100px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const random = useCallback(x => {
     return (Math.sin(x * 12.9898) * 43758.5453) % 1;
@@ -130,48 +145,65 @@ const ElectricBorder = ({
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!canvas || !container || !isVisible) {
+      // Pause animation when not visible
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const octaves = 10;
+    // Perf: fewer octaves & lower DPR on mobile
+    const mobile = isMobile();
+    const octaves = mobile ? 4 : 8;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
     const frequency = 10;
     const baseFlatness = 0;
-    const displacement = 60;
-    const borderOffset = 60;
+    const displacement = mobile ? 40 : 60;
+    const borderOffset = mobile ? 40 : 60;
+    const targetFPS = mobile ? 24 : 40;
+    const frameInterval = 1000 / targetFPS;
+    let lastDrawTime = 0;
 
     const updateSize = () => {
       const rect = container.getBoundingClientRect();
       const width = rect.width + borderOffset * 2;
       const height = rect.height + borderOffset * 2;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // Lower DPR on mobile for perf
+      const dpr = mobile ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      return { width, height };
+      return { width, height, dpr };
     };
 
-    let { width, height } = updateSize();
+    let { width, height, dpr } = updateSize();
 
     const drawElectricBorder = currentTime => {
-      if (!canvas || !ctx) return;
+      animationRef.current = requestAnimationFrame(drawElectricBorder);
+
+      // Throttle to target FPS
+      const elapsed = currentTime - lastDrawTime;
+      if (elapsed < frameInterval) return;
+      lastDrawTime = currentTime - (elapsed % frameInterval);
 
       const deltaTime = (currentTime - lastFrameTimeRef.current) / 1000;
       timeRef.current += deltaTime * speed;
       lastFrameTimeRef.current = currentTime;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.scale(dpr, dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       ctx.strokeStyle = color;
       ctx.lineWidth = 1;
@@ -187,7 +219,8 @@ const ElectricBorder = ({
       const rad = Math.min(borderRadius, maxRadius);
 
       const approximatePerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * rad;
-      const sampleCount = Math.floor(approximatePerimeter / 2);
+      // Fewer samples on mobile
+      const sampleCount = Math.floor(approximatePerimeter / (mobile ? 4 : 2));
 
       ctx.beginPath();
 
@@ -216,26 +249,27 @@ const ElectricBorder = ({
 
       ctx.closePath();
       ctx.stroke();
-
-      animationRef.current = requestAnimationFrame(drawElectricBorder);
     };
 
     const resizeObserver = new ResizeObserver(() => {
       const newSize = updateSize();
       width = newSize.width;
       height = newSize.height;
+      dpr = newSize.dpr;
     });
     resizeObserver.observe(container);
 
+    lastFrameTimeRef.current = performance.now();
     animationRef.current = requestAnimationFrame(drawElectricBorder);
 
     return () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
       }
       resizeObserver.disconnect();
     };
-  }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint]);
+  }, [color, speed, chaos, borderRadius, octavedNoise, getRoundedRectPoint, isVisible]);
 
   const vars = {
     '--electric-border-color': color,

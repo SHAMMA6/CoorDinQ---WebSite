@@ -100,3 +100,71 @@ footer[id] {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Animated Background Orbs (CSS-only, GPU composited) ────────── */
+.animated-orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+  pointer-events: none;
+  /* Mobile: lighter blur for GPU performance */
+  filter: blur(40px);
+}
+
+@media (min-width: 768px) {
+  .animated-orb {
+    filter: blur(60px);
+  }
+}
+
+.animated-orb-1 {
+  width: 500px;
+  height: 500px;
+  left: -10%;
+  top: -20%;
+  background: radial-gradient(circle, rgba(58, 191, 176, 0.12) 0%, transparent 70%);
+  animation: orb-float-1 22s ease-in-out infinite;
+}
+
+.animated-orb-2 {
+  width: 420px;
+  height: 420px;
+  left: 60%;
+  top: 10%;
+  background: radial-gradient(circle, rgba(58, 191, 176, 0.08) 0%, transparent 70%);
+  animation: orb-float-2 18s ease-in-out infinite;
+}
+
+.animated-orb-3 {
+  width: 380px;
+  height: 380px;
+  left: 30%;
+  top: 60%;
+  background: radial-gradient(circle, rgba(58, 191, 176, 0.06) 0%, transparent 70%);
+  animation: orb-float-3 25s ease-in-out infinite;
+}
+
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(12%, -8%) scale(1.12); }
+  66%      { transform: translate(-4%, 10%) scale(0.92); }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(-10%, 12%) scale(0.88); }
+  66%      { transform: translate(6%, -6%) scale(1.1); }
+}
+
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%      { transform: translate(8%, -10%) scale(1.08); }
+  66%      { transform: translate(-12%, 4%) scale(0.94); }
+}
+
+/* Reduced motion: disable all orb animations */
+@media (prefers-reduced-motion: reduce) {
+  .animated-orb {
+    animation: none !important;
+  }
+}

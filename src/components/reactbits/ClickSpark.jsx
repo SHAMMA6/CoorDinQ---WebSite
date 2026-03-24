@@ -14,6 +14,8 @@ export default function ClickSpark({
 }) {
   const canvasRef = useRef(null)
   const sparksRef = useRef([])
+  const animationIdRef = useRef(null)
+  const isAnimatingRef = useRef(false)
 
   const easeFunc = useCallback(
     (t) => {
@@ -65,23 +67,21 @@ export default function ClickSpark({
     }
   }, [disabled])
 
-  useEffect(() => {
-    if (disabled) return undefined
+  // Draw loop — only runs when there are active sparks
+  const draw = useCallback(
+    (timestamp) => {
+      const canvas = canvasRef.current
+      if (!canvas) {
+        isAnimatingRef.current = false
+        return
+      }
 
-    const canvas = canvasRef.current
-    if (!canvas) return undefined
-
-    const ctx = canvas.getContext('2d')
-    let animationId
-
-    const draw = (timestamp) => {
+      const ctx = canvas.getContext('2d')
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       sparksRef.current = sparksRef.current.filter((spark) => {
         const elapsed = timestamp - spark.startTime
-        if (elapsed >= duration) {
-          return false
-        }
+        if (elapsed >= duration) return false
 
         const progress = elapsed / duration
         const eased = easeFunc(progress)
@@ -103,12 +103,27 @@ export default function ClickSpark({
         return true
       })
 
-      animationId = requestAnimationFrame(draw)
-    }
+      // Stop loop when no sparks remain
+      if (sparksRef.current.length > 0) {
+        animationIdRef.current = requestAnimationFrame(draw)
+      } else {
+        isAnimatingRef.current = false
+        animationIdRef.current = null
+      }
+    },
+    [duration, easeFunc, extraScale, sparkColor, sparkRadius, sparkSize],
+  )
 
-    animationId = requestAnimationFrame(draw)
-    return () => cancelAnimationFrame(animationId)
-  }, [disabled, duration, easeFunc, extraScale, sparkColor, sparkRadius, sparkSize])
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current)
+        animationIdRef.current = null
+        isAnimatingRef.current = false
+      }
+    }
+  }, [])
 
   const handleClick = (e) => {
     if (disabled) return
@@ -129,6 +144,12 @@ export default function ClickSpark({
     }))
 
     sparksRef.current.push(...newSparks)
+
+    // Start animation loop if not already running
+    if (!isAnimatingRef.current) {
+      isAnimatingRef.current = true
+      animationIdRef.current = requestAnimationFrame(draw)
+    }
   }
 
   return (

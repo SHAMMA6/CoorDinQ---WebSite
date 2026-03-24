@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import AnimatedBackground from './AnimatedBackground'
-import LightRays from '../reactbits/LightRays'
 import Button from '../ui/Button'
 import logo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
+
+// Lazy-load WebGL LightRays — skip entirely on mobile
+const LightRays = lazy(() => import('../reactbits/LightRays'))
 
 const MotionSpan = motion.span
 const MotionImg = motion.img
@@ -65,27 +67,39 @@ function TypingText() {
 
 export default function Hero() {
   const reduceMotion = useReducedMotion()
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    // Only enable WebGL LightRays on desktop (768px+)
+    const mq = window.matchMedia('(min-width: 768px)')
+    setIsDesktop(mq.matches)
+    const handler = (e) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
 
   return (
     <section id="home" className="relative flex min-h-screen flex-col items-center justify-center px-6">
       <AnimatedBackground />
-      {!reduceMotion && (
-        <div className="pointer-events-none absolute inset-0 z-[4] opacity-70">
-          <LightRays
-            raysOrigin="top-center"
-            raysColor="#3ABFB0"
-            raysSpeed={0.75}
-            lightSpread={1.1}
-            rayLength={1.3}
-            pulsating={false}
-            fadeDistance={1.05}
-            saturation={1.1}
-            followMouse
-            mouseInfluence={0.05}
-            noiseAmount={0.03}
-            distortion={0.04}
-          />
-        </div>
+      {!reduceMotion && isDesktop && (
+        <Suspense fallback={null}>
+          <div className="pointer-events-none absolute inset-0 z-[4] opacity-70">
+            <LightRays
+              raysOrigin="top-center"
+              raysColor="#3ABFB0"
+              raysSpeed={0.75}
+              lightSpread={1.1}
+              rayLength={1.3}
+              pulsating={false}
+              fadeDistance={1.05}
+              saturation={1.1}
+              followMouse
+              mouseInfluence={0.05}
+              noiseAmount={0.03}
+              distortion={0.04}
+            />
+          </div>
+        </Suspense>
       )}
 
       <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center text-center">
