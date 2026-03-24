@@ -59,9 +59,6 @@ const fallbackProjects = [
 /* ────────────────────────────────────────────────────────────────
    Project Card — links to detail page
    ──────────────────────────────────────────────────────────────── */
-// Skip heavy ElectricBorder canvas on mobile — keep static glow border only
-const isMobileDevice = typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window)
-
 function ProjectCard({ project, index }) {
   const hasFeaturedImage = project.featured_image || project.image_url
   const imageCount = project.images?.length || 0
@@ -160,15 +157,9 @@ function ProjectCard({ project, index }) {
       exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
     >
-      {isMobileDevice ? (
-        <div className="rounded-3xl border border-teal/20 shadow-[0_0_20px_rgba(58,191,176,0.12)]">
-          {linkContent}
-        </div>
-      ) : (
-        <ElectricBorder color="#3ABFB0" speed={0.8} chaos={0.08} borderRadius={24}>
-          {linkContent}
-        </ElectricBorder>
-      )}
+      <ElectricBorder color="#3ABFB0" speed={0.8} chaos={0.08} borderRadius={24}>
+        {linkContent}
+      </ElectricBorder>
     </motion.div>
   )
 }

@@ -213,7 +213,3 @@ footer[id] {
   animation: q-spin 12s linear infinite;
   will-change: transform;
 }
-/* Speed up on parent hover via group */
-.group\/logo:hover .q-logo-spin {
-  animation-duration: 2s;
-}
