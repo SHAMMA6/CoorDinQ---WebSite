@@ -107,8 +107,9 @@ footer[id] {
   border-radius: 50%;
   will-change: transform;
   pointer-events: none;
-  /* Mobile: lighter blur for GPU performance */
-  filter: blur(40px);
+  /* Mobile: much lighter blur for GPU performance */
+  filter: blur(18px);
+  contain: layout style;
 }
 
 @media (min-width: 768px) {
@@ -118,8 +119,8 @@ footer[id] {
 }
 
 .animated-orb-1 {
-  width: 500px;
-  height: 500px;
+  width: 320px;
+  height: 320px;
   left: -10%;
   top: -20%;
   background: radial-gradient(circle, rgba(58, 191, 176, 0.12) 0%, transparent 70%);
@@ -127,8 +128,8 @@ footer[id] {
 }
 
 .animated-orb-2 {
-  width: 420px;
-  height: 420px;
+  width: 280px;
+  height: 280px;
   left: 60%;
   top: 10%;
   background: radial-gradient(circle, rgba(58, 191, 176, 0.08) 0%, transparent 70%);
@@ -136,12 +137,18 @@ footer[id] {
 }
 
 .animated-orb-3 {
-  width: 380px;
-  height: 380px;
+  width: 260px;
+  height: 260px;
   left: 30%;
   top: 60%;
   background: radial-gradient(circle, rgba(58, 191, 176, 0.06) 0%, transparent 70%);
   animation: orb-float-3 25s ease-in-out infinite;
+}
+
+@media (min-width: 768px) {
+  .animated-orb-1 { width: 500px; height: 500px; }
+  .animated-orb-2 { width: 420px; height: 420px; }
+  .animated-orb-3 { width: 380px; height: 380px; }
 }
 
 @keyframes orb-float-1 {
@@ -167,4 +174,46 @@ footer[id] {
   .animated-orb {
     animation: none !important;
   }
+}
+
+/* ── Navbar glass — lighter blur on mobile for perf ────────────── */
+.navbar-glass {
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+}
+@media (min-width: 768px) {
+  .navbar-glass {
+    -webkit-backdrop-filter: blur(40px) saturate(1.8);
+    backdrop-filter: blur(40px) saturate(1.8);
+  }
+}
+
+/* ── Floating logo CSS animation (compositor-thread) ───────────── */
+@keyframes float-logo {
+  0%, 100% { transform: translateY(0) rotate(0deg) translateZ(0); }
+  33%      { transform: translateY(calc(var(--drift, 12) * -1px)) rotate(2deg) translateZ(0); }
+  66%      { transform: translateY(calc(var(--drift, 12) * -0.5px)) rotate(-1deg) translateZ(0); }
+}
+
+/* ── Cursor blink CSS animation ────────────────────────────────── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+.typing-cursor {
+  animation: cursor-blink 1.1s step-end infinite;
+}
+
+/* ── Q logo CSS rotation (compositor-thread) ───────────────────── */
+@keyframes q-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.q-logo-spin {
+  animation: q-spin 12s linear infinite;
+  will-change: transform;
+}
+/* Speed up on parent hover via group */
+.group\/logo:hover .q-logo-spin {
+  animation-duration: 2s;
 }

@@ -159,7 +159,7 @@ const ElectricBorder = ({
 
     // Perf: fewer octaves & lower DPR on mobile
     const mobile = isMobile();
-    const octaves = mobile ? 4 : 8;
+    const octaves = mobile ? 2 : 8;
     const lacunarity = 1.6;
     const gain = 0.7;
     const amplitude = chaos;
@@ -167,7 +167,7 @@ const ElectricBorder = ({
     const baseFlatness = 0;
     const displacement = mobile ? 40 : 60;
     const borderOffset = mobile ? 40 : 60;
-    const targetFPS = mobile ? 24 : 40;
+    const targetFPS = mobile ? 16 : 40;
     const frameInterval = 1000 / targetFPS;
     let lastDrawTime = 0;
 
@@ -220,7 +220,7 @@ const ElectricBorder = ({
 
       const approximatePerimeter = 2 * (borderWidth + borderHeight) + 2 * Math.PI * rad;
       // Fewer samples on mobile
-      const sampleCount = Math.floor(approximatePerimeter / (mobile ? 4 : 2));
+      const sampleCount = Math.floor(approximatePerimeter / (mobile ? 6 : 2));
 
       ctx.beginPath();
 

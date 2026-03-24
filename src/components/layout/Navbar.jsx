@@ -12,7 +12,6 @@ const navLinks = [
 
 const MotionNav = motion.nav
 const MotionDiv = motion.div
-const MotionImg = motion.img
 const MotionSpan = motion.span
 
 function NavLink({ link, className, onClick }) {
@@ -73,7 +72,6 @@ function ContactButton({ className, onClick }) {
 }
 
 export default function Navbar({ scrolled }) {
-  const [hoveredQ, setHoveredQ] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
@@ -85,7 +83,7 @@ export default function Navbar({ scrolled }) {
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
       >
         <MotionDiv
-          className="flex items-center gap-2 rounded-full px-3 py-2 border border-white/[0.08]"
+          className="flex items-center gap-2 rounded-full px-3 py-2 border border-white/[0.08] navbar-glass"
           animate={{
             backgroundColor: scrolled ? 'rgba(20, 30, 44, 0.6)' : 'rgba(20, 30, 44, 0.35)',
             boxShadow: scrolled
@@ -93,14 +91,11 @@ export default function Navbar({ scrolled }) {
               : '0 4px 20px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
           }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          style={{ backdropFilter: 'blur(40px) saturate(1.8)', WebkitBackdropFilter: 'blur(40px) saturate(1.8)' }}
         >
           {/* Logo: CoorDin text + circular Q */}
           <Link
             to="/"
-            className="flex items-center shrink-0"
-            onMouseEnter={() => setHoveredQ(true)}
-            onMouseLeave={() => setHoveredQ(false)}
+            className="group/logo flex items-center shrink-0"
           >
             {/* CoorDin text - collapses on scroll */}
             <MotionDiv
@@ -119,18 +114,12 @@ export default function Navbar({ scrolled }) {
               />
             </MotionDiv>
 
-            {/* Circular Q - always visible */}
+            {/* Circular Q - always visible, CSS rotation for GPU perf */}
             <div className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full overflow-hidden shrink-0">
-              <MotionImg
+              <img
                 src={qLogo}
                 alt="Q"
-                className="w-6 h-6 sm:w-7 sm:h-7 object-contain"
-                animate={{ rotate: 360 }}
-                transition={{
-                  duration: hoveredQ ? 2 : 12,
-                  repeat: Infinity,
-                  ease: 'linear',
-                }}
+                className="w-6 h-6 sm:w-7 sm:h-7 object-contain q-logo-spin"
               />
             </div>
           </Link>
@@ -190,8 +179,7 @@ export default function Navbar({ scrolled }) {
       <AnimatePresence>
         {mobileOpen && (
           <MotionDiv
-            className="fixed top-[4.5rem] left-4 right-4 z-40 sm:hidden rounded-2xl border border-white/[0.08] overflow-hidden"
-            style={{ backdropFilter: 'blur(40px) saturate(1.8)', WebkitBackdropFilter: 'blur(40px) saturate(1.8)' }}
+            className="fixed top-[4.5rem] left-4 right-4 z-40 sm:hidden rounded-2xl border border-white/[0.08] overflow-hidden navbar-glass"
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1, backgroundColor: 'rgba(20, 30, 44, 0.75)' }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}

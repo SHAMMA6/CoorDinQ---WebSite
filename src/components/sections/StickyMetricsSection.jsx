@@ -219,23 +219,18 @@ const mobileFloatingLogos = [
 ]
 
 function FloatingLogo({ logo, reduceMotion }) {
-  const motionProps = reduceMotion
+  // Use CSS animation instead of framer-motion for compositor-thread performance
+  const animStyle = reduceMotion
     ? {}
     : {
-        animate: {
-          y: [0, -logo.drift, 0],
-          rotate: [0, 2, -1, 0],
-        },
-        transition: {
-          duration: 7 + logo.drift * 0.08,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        },
+        '--drift': logo.drift,
+        animation: `float-logo ${7 + logo.drift * 0.08}s ease-in-out infinite`,
+        willChange: 'transform',
       }
 
   return (
-    <MotionDiv
-      className="absolute z-20 flex items-center justify-center rounded-[22px] border border-white/10 shadow-[0_24px_55px_rgba(0,0,0,0.28)] backdrop-blur-sm"
+    <div
+      className="absolute z-20 flex items-center justify-center rounded-[22px] border border-white/10 shadow-[0_24px_55px_rgba(0,0,0,0.28)]"
       style={{
         top: logo.top,
         left: logo.left,
@@ -243,9 +238,9 @@ function FloatingLogo({ logo, reduceMotion }) {
         height: `clamp(${Math.round(logo.size * 0.56)}px, ${Math.round(logo.size / 14)}vw, ${logo.size}px)`,
         backgroundColor: logo.bg,
         color: logo.fg,
+        ...animStyle,
       }}
       aria-hidden="true"
-      {...motionProps}
     >
       {logo.src ? (
         <img
@@ -260,7 +255,7 @@ function FloatingLogo({ logo, reduceMotion }) {
           {logo.label}
         </span>
       )}
-    </MotionDiv>
+    </div>
   )
 }
 

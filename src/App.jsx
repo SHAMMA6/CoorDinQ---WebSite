@@ -13,7 +13,7 @@ function BackToTop() {
 
   useEffect(() => {
     const handleScroll = () => setVisible(window.scrollY > 600)
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -51,16 +51,21 @@ function BackToTop() {
 
 function App() {
   const reduceMotion = useReducedMotion()
+  // Disable ClickSpark on mobile — full-page canvas + touch overhead hurts FPS
+  const [isMobile] = useState(() =>
+    typeof window !== 'undefined' && (window.innerWidth < 768 || 'ontouchstart' in window)
+  )
+  const sparkDisabled = reduceMotion || isMobile
 
   return (
     <BrowserRouter>
       <ClickSpark
         sparkColor="#5CD4C6"
-        sparkCount={reduceMotion ? 0 : 6}
-        sparkRadius={reduceMotion ? 0 : 14}
-        sparkSize={reduceMotion ? 0 : 8}
-        duration={reduceMotion ? 0 : 320}
-        disabled={reduceMotion}
+        sparkCount={sparkDisabled ? 0 : 6}
+        sparkRadius={sparkDisabled ? 0 : 14}
+        sparkSize={sparkDisabled ? 0 : 8}
+        duration={sparkDisabled ? 0 : 320}
+        disabled={sparkDisabled}
         className="min-h-screen bg-navy"
       >
         <Routes>

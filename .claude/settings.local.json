@@ -11,7 +11,8 @@
       "Bash(pg_isready -h localhost -p 5432)",
       "Bash(node index.js)",
       "WebFetch(domain:reactbits.dev)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(npx vite:*)"
     ]
   }
 }

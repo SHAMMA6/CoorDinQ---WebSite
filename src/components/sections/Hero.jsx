@@ -8,7 +8,6 @@ import logo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 // Lazy-load WebGL LightRays — skip entirely on mobile
 const LightRays = lazy(() => import('../reactbits/LightRays'))
 
-const MotionSpan = motion.span
 const MotionImg = motion.img
 const MotionH1 = motion.h1
 const MotionP = motion.p
@@ -56,10 +55,8 @@ function TypingText() {
   return (
     <span className="text-teal">
       {displayText}
-      <MotionSpan
-        className="ml-1 inline-block h-[1em] w-[3px] rounded-full bg-teal align-middle"
-        animate={{ opacity: [1, 0] }}
-        transition={{ duration: 0.6, repeat: Infinity, repeatType: 'reverse' }}
+      <span
+        className="ml-1 inline-block h-[1em] w-[3px] rounded-full bg-teal align-middle typing-cursor"
       />
     </span>
   )
