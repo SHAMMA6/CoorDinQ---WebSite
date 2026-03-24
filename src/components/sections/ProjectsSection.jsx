@@ -4,40 +4,21 @@ import { Link } from 'react-router-dom'
 import CardSwap, { Card } from '../reactbits/CardSwap'
 import Button from '../ui/Button'
 import AutoScrollCards from '../ui/AutoScrollCards'
-import heroImage from '../../assets/hero.png'
-import mainLogo from '../../assets/Main Logo.png'
-import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
+import amrImage from '../../assets/amr.png'
+import redseaImage from '../../assets/redsea.png'
 
 const projects = [
   {
-    title: 'Pulse Commerce',
+    title: 'Dr. Amr El Yamany',
     category: 'Website',
-    image: heroImage,
-    gradient: 'from-teal/30 via-navy-light/40 to-navy-dark/90',
+    image: amrImage,
+    gradient: 'from-[#0d7377]/35 via-[#1a252f]/50 to-[#0E1721]/95',
   },
   {
-    title: 'Orbit HQ',
-    category: 'Software',
-    image: mainLogo,
-    gradient: 'from-[#2D7D74]/40 via-[#243447]/50 to-[#111C27]/95',
-  },
-  {
-    title: 'FleetFlow App',
-    category: 'Mobile App',
-    image: null,
-    gradient: 'from-[#3ABFB0]/35 via-[#2A9A8D]/30 to-[#111C27]/95',
-  },
-  {
-    title: 'Peak Studio',
+    title: 'Red Sea Construction',
     category: 'Website',
-    image: textLogo,
-    gradient: 'from-[#415A77]/45 via-[#243447]/50 to-[#0E1721]/95',
-  },
-  {
-    title: 'Signal Reach',
-    category: 'Digital Marketing',
-    image: null,
-    gradient: 'from-[#2A9A8D]/45 via-[#1B2838]/55 to-[#111C27]/96',
+    image: redseaImage,
+    gradient: 'from-[#c9a227]/25 via-[#1a252f]/45 to-[#0E1721]/95',
   },
 ]
 
@@ -122,7 +103,7 @@ export default function ProjectsSection() {
                 Selected product outcomes
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-white/65 lg:text-base">
-                Fast-moving teams, clear product direction, and execution that turns
+                Fast moving teams, clear product direction, and execution that turns
                 concepts into dependable digital products.
               </p>
               <div className="mt-8">

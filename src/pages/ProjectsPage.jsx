@@ -5,54 +5,45 @@ import Button from '../components/ui/Button'
 import Navbar from '../components/layout/Navbar'
 import AnimatedBackground from '../components/sections/AnimatedBackground'
 import ElectricBorder from '../components/reactbits/ElectricBorder'
+import amrImage from '../assets/amr.png'
+import redseaImage from '../assets/redsea.png'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
 const fallbackProjects = [
   {
-    id: 1, title: 'Pulse Commerce', category: 'Website',
-    description: 'A high-performance e-commerce platform built for scale. Features real-time inventory management, AI-powered recommendations, and seamless payment integration across 40+ countries.',
-    tech: ['React', 'Node.js', 'PostgreSQL', 'Redis', 'Stripe'],
-    gradient: 'from-teal/30 via-navy-light/40 to-navy-dark/90',
-    status: 'Live', year: 2025, client: 'Pulse Retail Inc.', duration: '6 months',
-    highlights: ['3x faster load times', '40% increase in conversions', '99.9% uptime'],
-    featured_image: null, images: [], video_url: null,
+    id: 1,
+    title: 'Dr. Amr El Yamany',
+    category: 'Website',
+    description:
+      'Medical practice website for an orthopedic surgeon in Dubai—clear patient journey, consultation CTAs, and a trustworthy clinical brand presence.',
+    tech: ['React', 'Next.js', 'Tailwind CSS'],
+    gradient: 'from-[#0d7377]/35 via-[#1a252f]/50 to-[#111C27]/95',
+    status: 'Live',
+    year: 2025,
+    client: 'Dr. Amr El Yamany',
+    duration: '—',
+    highlights: ['Patient-focused UX', 'Strong clinical trust cues', 'Performance-focused build'],
+    featured_image: amrImage,
+    images: [],
+    video_url: null,
   },
   {
-    id: 2, title: 'Orbit HQ', category: 'Software',
-    description: 'Enterprise workspace management platform that unifies team communication, project tracking, and resource allocation into a single intelligent dashboard.',
-    tech: ['Next.js', 'TypeScript', 'GraphQL', 'PostgreSQL'],
-    gradient: 'from-[#2D7D74]/40 via-[#243447]/50 to-[#111C27]/95',
-    status: 'Live', year: 2024, client: 'Orbit Technologies', duration: '8 months',
-    highlights: ['500+ daily active users', '60% reduction in meeting time', 'Custom analytics engine'],
-    featured_image: null, images: [], video_url: null,
-  },
-  {
-    id: 3, title: 'FleetFlow App', category: 'Mobile App',
-    description: 'Real-time fleet management mobile app with GPS tracking, route optimization, and predictive maintenance alerts for logistics companies.',
-    tech: ['React Native', 'Express', 'MongoDB', 'Socket.io', 'Google Maps API'],
-    gradient: 'from-[#3ABFB0]/35 via-[#2A9A8D]/30 to-[#111C27]/95',
-    status: 'Live', year: 2025, client: 'FleetFlow Logistics', duration: '5 months',
-    highlights: ['Real-time GPS tracking', '25% fuel cost reduction', '10K+ deliveries tracked daily'],
-    featured_image: null, images: [], video_url: null,
-  },
-  {
-    id: 4, title: 'Peak Studio', category: 'Website',
-    description: 'A comprehensive design system and component library powering 12 products. Includes Figma integration, accessibility-first components, and automated documentation.',
-    tech: ['Figma', 'Storybook', 'React', 'Tailwind CSS', 'Chromatic'],
-    gradient: 'from-[#415A77]/45 via-[#243447]/50 to-[#0E1721]/95',
-    status: 'Live', year: 2024, client: 'Peak Digital Group', duration: '4 months',
-    highlights: ['200+ reusable components', 'WCAG 2.1 AA compliant', '70% faster design-to-dev handoff'],
-    featured_image: null, images: [], video_url: null,
-  },
-  {
-    id: 5, title: 'Signal Reach', category: 'Digital Marketing',
-    description: 'Full-funnel digital marketing platform with campaign automation, audience segmentation, multi-channel attribution, and real-time performance dashboards.',
-    tech: ['Vue.js', 'Python', 'FastAPI', 'PostgreSQL', 'Google Ads API'],
-    gradient: 'from-[#2A9A8D]/45 via-[#1B2838]/55 to-[#111C27]/96',
-    status: 'In Progress', year: 2025, client: 'Signal Media Co.', duration: '7 months',
-    highlights: ['4.2x ROAS average', 'Multi-channel attribution', 'AI-driven audience targeting'],
-    featured_image: null, images: [], video_url: null,
+    id: 2,
+    title: 'Red Sea Construction',
+    category: 'Website',
+    description:
+      'Corporate web presence for a long-standing construction brand—bold typography, project storytelling, and a premium maritime-inspired visual language.',
+    tech: ['React', 'Next.js', 'Tailwind CSS'],
+    gradient: 'from-[#c9a227]/30 via-[#1a252f]/50 to-[#111C27]/95',
+    status: 'Live',
+    year: 2025,
+    client: 'Red Sea Construction',
+    duration: '—',
+    highlights: ['Brand-led hero', 'Clear service paths', 'Responsive, fast delivery'],
+    featured_image: redseaImage,
+    images: [],
+    video_url: null,
   },
 ]
 

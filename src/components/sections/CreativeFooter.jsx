@@ -4,13 +4,17 @@ import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 const quickLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const socialLinks = [
-  { label: 'LinkedIn', href: '#' },
-  { label: 'Behance', href: '#' },
-  { label: 'Dribbble', href: '#' },
+  {
+    label: 'Yousef Abdel Fattah',
+    href: 'https://www.linkedin.com/in/yousef-abdel-fattah-b7bb64293/',
+  },
+  {
+    label: 'Karim Khaled',
+    href: 'https://www.linkedin.com/in/karim-khaled-254764213/',
+  },
 ]
 
 export default function CreativeFooter() {
@@ -31,7 +35,7 @@ export default function CreativeFooter() {
             <img src={textLogo} alt="CoorDinQ" className="h-10 w-auto object-contain object-left" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70">
               Build faster with a focused digital partner. We design, engineer,
-              and grow software products that stay resilient in real-world use.
+              and grow software products that stay resilient in real world use.
             </p>
           </div>
 
@@ -59,25 +63,23 @@ export default function CreativeFooter() {
             </p>
             <div className="mt-4 flex flex-col gap-3">
               <a
-                href="tel:+1234567890"
+                href="tel:+201012304909"
                 className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
               >
                 <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
-                +1 (234) 567-890
+                {/* System font for digits — Facundo demo has a defective “4” glyph */}
+                <span className="font-[ui-sans-serif,system-ui,-apple-system,'Segoe_UI',Roboto,sans-serif] text-[0.9375rem] tabular-nums tracking-wide">
+                  0101 230 4909
+                </span>
               </a>
               <a
-                href="tel:+0987654321"
+                href="tel:+201060556773"
                 className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
               >
                 <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
-                +0 (987) 654-321
-              </a>
-              <a
-                href="mailto:hello@coordinq.com"
-                className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
-              >
-                <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
-                hello@coordinq.com
+                <span className="font-[ui-sans-serif,system-ui,-apple-system,'Segoe_UI',Roboto,sans-serif] text-[0.9375rem] tabular-nums tracking-wide">
+                  0106 055 6773
+                </span>
               </a>
             </div>
           </div>

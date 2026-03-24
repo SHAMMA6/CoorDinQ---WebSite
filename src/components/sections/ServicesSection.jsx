@@ -8,17 +8,17 @@ const services = [
     title: 'Web Platforms',
     kicker: 'Scalable by design',
     description:
-      'High-performance websites and web apps with reliable architecture, modern UX, and measurable growth goals.',
+      'High performance websites and web apps with reliable architecture, modern UX, and measurable growth goals.',
   },
   {
     title: 'Mobile Applications',
-    kicker: 'iOS + Android delivery',
+    kicker: 'iOS  Android delivery',
     description:
-      'Native-feel mobile experiences built for performance, usability, and long-term maintainability.',
+      'Native feel mobile experiences built for performance, usability, and long-term maintainability.',
   },
   {
     title: 'Custom Software',
-    kicker: 'Business-first engineering',
+    kicker: 'Business first engineering',
     description:
       'Tailored systems that automate workflows, integrate data, and remove operational friction across teams.',
   },
@@ -26,10 +26,10 @@ const services = [
     title: 'Digital Marketing',
     kicker: 'Performance channels',
     description:
-      'Data-led campaigns, analytics setup, and funnel optimization to turn visibility into qualified conversions.',
+      'Data led campaigns, analytics setup, and funnel optimization to turn visibility into qualified conversions.',
   },
   {
-    title: 'UI/UX Design',
+    title: 'UI UX Design',
     kicker: 'Intentional interfaces',
     description:
       'Clear interaction design, visual systems, and prototyping that turn complex products into intuitive experiences.',
@@ -77,7 +77,7 @@ export default function ServicesSection() {
             Services
           </p>
           <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
-            End-to-end digital execution
+            End to end digital execution
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
             From product strategy to shipping and growth, we build focused
@@ -101,7 +101,12 @@ export default function ServicesSection() {
                   </div>
                   <div>
                     <p className="text-xs leading-relaxed text-white/70">{service.description}</p>
-                    <span className="mt-2 block text-sm font-semibold text-white/25">0{index + 1}</span>
+                    <span
+                      className="mt-2 block text-sm font-semibold text-white/25 font-[ui-sans-serif,system-ui,-apple-system,'Segoe_UI',Roboto,sans-serif] tabular-nums tracking-wide"
+                      aria-hidden
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
                   </div>
                 </article>
               ))}
@@ -151,7 +156,12 @@ export default function ServicesSection() {
                       <p className="max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
                         {service.description}
                       </p>
-                      <span className="text-lg font-semibold text-white/35">0{index + 1}</span>
+                      <span
+                        className="text-lg font-semibold text-white/35 font-[ui-sans-serif,system-ui,-apple-system,'Segoe_UI',Roboto,sans-serif] tabular-nums tracking-wide"
+                        aria-hidden
+                      >
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
                     </div>
                   </div>
                 </ScrollStackItem>

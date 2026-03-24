@@ -1,9 +1,23 @@
 import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 
+import reactIcon from '../../assets/tech-logos/react.svg'
+import dotnetIcon from '../../assets/tech-logos/dotnet.svg'
+import typescriptIcon from '../../assets/tech-logos/typescript.svg'
+import figmaIcon from '../../assets/tech-logos/figma.svg'
+import tailwindIcon from '../../assets/tech-logos/tailwindcss.svg'
+import viteIcon from '../../assets/tech-logos/vite.svg'
+import nextIcon from '../../assets/tech-logos/nextdotjs.svg'
+import nodeIcon from '../../assets/tech-logos/nodedotjs.svg'
+import storybookIcon from '../../assets/tech-logos/storybook.svg'
+import graphqlIcon from '../../assets/tech-logos/graphql.svg'
+import prismaIcon from '../../assets/tech-logos/prisma.svg'
+import muiIcon from '../../assets/tech-logos/mui.svg'
+
 const MotionDiv = motion.div
 
-const metrics = ['1,150 apps', '605,100 screens', '322,100 flows']
+const desktopMetrics = ['5 systems', '10 websites', '6 apps']
+const mobileMetrics = ['5 systems', '10 websites', '6 apps']
 
 const timingConfig = {
   entryOffset: 110,
@@ -14,203 +28,252 @@ const timingConfig = {
   ],
 }
 
+// Desktop: fewer tiles, identical pixel size + shape (fixed box, uniform radius)
+const DESKTOP_LOGO_PX = 88
+
 const desktopFloatingLogos = [
   {
-    id: 'creme',
-    label: 'CR',
-    src: null,
-    bg: '#0F1723',
-    fg: '#F4F7FB',
-    top: '16%',
-    left: '12%',
-    size: 94,
-    drift: 18,
+    id: 'desk-react',
+    label: 'React',
+    src: reactIcon,
+    bg: '#EEF2F7',
+    fg: '#087EA4',
+    top: '12%',
+    left: '5%',
+    size: DESKTOP_LOGO_PX,
+    drift: 9,
   },
   {
-    id: 'dropbox',
-    label: 'DB',
-    src: null,
-    bg: '#1A6DFF',
-    fg: '#FFFFFF',
-    top: '31%',
-    left: '34%',
-    size: 118,
-    drift: 22,
+    id: 'desk-typescript',
+    label: 'TypeScript',
+    src: typescriptIcon,
+    bg: '#E8EEF8',
+    fg: '#3178C6',
+    top: '18%',
+    right: '6%',
+    size: DESKTOP_LOGO_PX,
+    drift: 9,
   },
   {
-    id: 'mails',
-    label: 'MC',
-    src: null,
-    bg: '#FEE440',
-    fg: '#212529',
-    top: '60%',
-    left: '20%',
-    size: 100,
-    drift: 16,
+    id: 'desk-vite',
+    label: 'Vite',
+    src: viteIcon,
+    bg: '#EEF0FF',
+    fg: '#646CFF',
+    top: '8%',
+    right: '22%',
+    size: DESKTOP_LOGO_PX,
+    drift: 10,
   },
   {
-    id: 'air',
-    label: 'AB',
-    src: null,
-    bg: '#FF3E6B',
-    fg: '#FFF4F7',
-    top: '66%',
-    left: '78%',
-    size: 108,
-    drift: 20,
+    id: 'desk-dotnet',
+    label: '.NET',
+    src: dotnetIcon,
+    bg: '#EDE9F7',
+    fg: '#512BD4',
+    top: '44%',
+    left: '4%',
+    size: DESKTOP_LOGO_PX,
+    drift: 8,
   },
   {
-    id: 'apple',
-    label: 'TV',
-    src: null,
-    bg: '#181D28',
-    fg: '#F3F7FF',
-    top: '80%',
-    left: '88%',
-    size: 102,
-    drift: 24,
+    id: 'desk-figma',
+    label: 'Figma',
+    src: figmaIcon,
+    bg: '#F7EBE6',
+    fg: '#F24E1E',
+    top: '54%',
+    right: '5%',
+    size: DESKTOP_LOGO_PX,
+    drift: 9,
   },
   {
-    id: 'orange',
-    label: 'OR',
-    src: null,
-    bg: '#F5822E',
-    fg: '#FFFFFF',
-    top: '24%',
-    left: '84%',
-    size: 96,
-    drift: 14,
+    id: 'desk-tailwind',
+    label: 'Tailwind CSS',
+    src: tailwindIcon,
+    bg: '#E8F7F7',
+    fg: '#06B6D4',
+    top: '76%',
+    left: '8%',
+    size: DESKTOP_LOGO_PX,
+    drift: 8,
+  },
+  // Upper gap (between nav and React cluster)
+  {
+    id: 'desk-next',
+    label: 'Next.js',
+    src: nextIcon,
+    bg: '#F2F2F2',
+    fg: '#000000',
+    top: '3%',
+    left: '19%',
+    size: DESKTOP_LOGO_PX,
+    drift: 8,
+  },
+  // Bottom row — spaced between lower-left Tailwind and lower-right Figma
+  {
+    id: 'desk-node',
+    label: 'Node.js',
+    src: nodeIcon,
+    bg: '#EAF6EC',
+    fg: '#339933',
+    top: '88%',
+    left: '24%',
+    size: DESKTOP_LOGO_PX,
+    drift: 9,
+  },
+  {
+    id: 'desk-storybook',
+    label: 'Storybook',
+    src: storybookIcon,
+    bg: '#F7EDF2',
+    fg: '#FF4785',
+    top: '90%',
+    left: '46%',
+    size: DESKTOP_LOGO_PX,
+    drift: 8,
+  },
+  {
+    id: 'desk-graphql',
+    label: 'GraphQL',
+    src: graphqlIcon,
+    bg: '#F5EAF3',
+    fg: '#E10098',
+    top: '88%',
+    left: '68%',
+    size: DESKTOP_LOGO_PX,
+    drift: 9,
   },
 ]
 
 const mobileFloatingLogos = [
   {
-    id: 'm-1-creme',
-    label: 'CR',
-    src: null,
-    bg: '#0F1723',
-    fg: '#F4F7FB',
+    id: 'm-tech-react',
+    label: 'React',
+    src: reactIcon,
+    bg: '#E8F4FC',
+    fg: '#087EA4',
     top: '18%',
     left: '-8%',
     size: 86,
     drift: 10,
   },
   {
-    id: 'm-2-openai',
-    label: 'AI',
-    src: null,
-    bg: '#EBEDF1',
-    fg: '#1E2330',
+    id: 'm-tech-dotnet',
+    label: '.NET',
+    src: dotnetIcon,
+    bg: '#EDE9F7',
+    fg: '#512BD4',
     top: '21%',
     left: '54%',
     size: 82,
     drift: 8,
   },
   {
-    id: 'm-3-orange',
-    label: 'OR',
-    src: null,
-    bg: '#F5822E',
-    fg: '#FFFFFF',
+    id: 'm-tech-typescript',
+    label: 'TypeScript',
+    src: typescriptIcon,
+    bg: '#E8EEF8',
+    fg: '#3178C6',
     top: '30%',
     left: '95%',
     size: 90,
     drift: 10,
   },
   {
-    id: 'm-4-dropbox',
-    label: 'DB',
-    src: null,
-    bg: '#1A6DFF',
-    fg: '#FFFFFF',
+    id: 'm-tech-figma',
+    label: 'Figma',
+    src: figmaIcon,
+    bg: '#F5EBE8',
+    fg: '#F24E1E',
     top: '35%',
     left: '27%',
     size: 92,
     drift: 12,
   },
   {
-    id: 'm-5-dots',
-    label: '::',
-    src: null,
-    bg: '#E8E7E5',
-    fg: '#2A2A2A',
+    id: 'm-tech-tailwind',
+    label: 'Tailwind CSS',
+    src: tailwindIcon,
+    bg: '#E8F7F7',
+    fg: '#06B6D4',
     top: '37%',
     left: '73%',
     size: 84,
     drift: 8,
   },
   {
-    id: 'm-6-mail',
-    label: 'MC',
-    src: null,
-    bg: '#FEE440',
-    fg: '#212529',
+    id: 'm-tech-node',
+    label: 'Node.js',
+    src: nodeIcon,
+    bg: '#E8F5E9',
+    fg: '#339933',
     top: '63%',
     left: '13%',
     size: 96,
     drift: 12,
   },
   {
-    id: 'm-7-air',
-    label: 'AB',
-    src: null,
-    bg: '#FF3E6B',
-    fg: '#FFF4F7',
+    id: 'm-tech-storybook',
+    label: 'Storybook',
+    src: storybookIcon,
+    bg: '#F5E8F0',
+    fg: '#FF4785',
     top: '65%',
     left: '95%',
     size: 98,
     drift: 12,
   },
   {
-    id: 'm-8-studio',
-    label: 'S',
-    src: null,
-    bg: '#2A2D7A',
-    fg: '#FFB648',
+    id: 'm-tech-vite',
+    label: 'Vite',
+    src: viteIcon,
+    bg: '#EDEFFF',
+    fg: '#646CFF',
     top: '79%',
     left: '-8%',
     size: 90,
     drift: 10,
   },
   {
-    id: 'm-9-bolt',
-    label: 'B',
-    src: null,
-    bg: '#83EA58',
-    fg: '#121A25',
+    id: 'm-tech-next',
+    label: 'Next.js',
+    src: nextIcon,
+    bg: '#ECECEC',
+    fg: '#000000',
     top: '76%',
     left: '51%',
     size: 86,
     drift: 9,
   },
   {
-    id: 'm-10-twitch',
-    label: 'TW',
-    src: null,
-    bg: '#A361FF',
-    fg: '#120D24',
+    id: 'm-tech-graphql',
+    label: 'GraphQL',
+    src: graphqlIcon,
+    bg: '#F3E8F5',
+    fg: '#E10098',
     top: '85%',
     left: '23%',
     size: 84,
     drift: 9,
   },
   {
-    id: 'm-11-nike',
-    label: 'N',
-    src: null,
-    bg: '#F5F5F5',
-    fg: '#0E1015',
+    id: 'm-tech-prisma',
+    label: 'Prisma',
+    src: prismaIcon,
+    bg: '#E8EAF5',
+    fg: '#2D3748',
     top: '88%',
     left: '75%',
     size: 80,
     drift: 8,
   },
   {
-    id: 'm-12-tv',
-    label: 'TV',
-    src: null,
-    bg: '#181D28',
-    fg: '#F3F7FF',
+    id: 'm-tech-mui',
+    label: 'MUI',
+    src: muiIcon,
+    bg: '#E3F2FD',
+    fg: '#007FFF',
     top: '80%',
     left: '95%',
     size: 92,
@@ -218,7 +281,7 @@ const mobileFloatingLogos = [
   },
 ]
 
-function FloatingLogo({ logo, reduceMotion }) {
+function FloatingLogo({ logo, reduceMotion, vwDivisor = 14, uniformSize = false }) {
   // Use CSS animation instead of framer-motion for compositor-thread performance
   const animStyle = reduceMotion
     ? {}
@@ -228,16 +291,31 @@ function FloatingLogo({ logo, reduceMotion }) {
         willChange: 'transform',
       }
 
+  const vw = Math.round(logo.size / vwDivisor)
+  const minPx = Math.round(logo.size * 0.56)
+  const horizontal =
+    logo.right != null
+      ? { left: 'auto', right: logo.right }
+      : { left: logo.left, right: 'auto' }
+
+  const boxSize = uniformSize
+    ? { width: logo.size, height: logo.size }
+    : {
+        width: `clamp(${minPx}px, ${vw}vw, ${logo.size}px)`,
+        height: `clamp(${minPx}px, ${vw}vw, ${logo.size}px)`,
+      }
+
   return (
     <div
-      className="absolute z-20 flex items-center justify-center rounded-[22px] border border-white/10 shadow-[0_24px_55px_rgba(0,0,0,0.28)]"
+      className="absolute z-20 flex aspect-square shrink-0 items-center justify-center rounded-[22px] border border-white/15 shadow-[0_18px_42px_rgba(0,0,0,0.34)] sm:rounded-[22px] sm:border-white/20 sm:shadow-[0_20px_48px_rgba(0,0,0,0.22)]"
       style={{
         top: logo.top,
-        left: logo.left,
-        width: `clamp(${Math.round(logo.size * 0.56)}px, ${Math.round(logo.size / 14)}vw, ${logo.size}px)`,
-        height: `clamp(${Math.round(logo.size * 0.56)}px, ${Math.round(logo.size / 14)}vw, ${logo.size}px)`,
+        ...horizontal,
+        ...boxSize,
         backgroundColor: logo.bg,
         color: logo.fg,
+        opacity: logo.opacity ?? 1,
+        ...(logo.zIndex != null ? { zIndex: logo.zIndex } : {}),
         ...animStyle,
       }}
       aria-hidden="true"
@@ -270,7 +348,7 @@ function AnimatedMetricLine({ metric, index, scrollYProgress, reduceMotion }) {
 
   return (
     <MotionDiv
-      className="whitespace-nowrap text-[clamp(0.95rem,6vw,1.45rem)] sm:text-[clamp(1.2rem,4.2vw,3.75rem)] font-black leading-[0.96] tracking-tight text-white"
+      className="whitespace-nowrap text-[clamp(0.95rem,6vw,1.45rem)] sm:text-[clamp(1.5rem,5.5vw,4.6rem)] sm:leading-[0.9] font-black leading-[0.96] tracking-[-0.02em] text-white"
       style={reduceMotion ? undefined : { y: lineY, opacity: lineOpacity }}
     >
       {metric}
@@ -314,23 +392,23 @@ export default function StickyMetricsSection() {
             <FloatingLogo key={logo.id} logo={logo} reduceMotion={reduceMotion} />
           ))}
         </div>
-        <div className="hidden sm:block">
+        <div className="pointer-events-none absolute inset-0 hidden sm:block">
           {desktopFloatingLogos.map((logo) => (
-            <FloatingLogo key={logo.id} logo={logo} reduceMotion={reduceMotion} />
+            <FloatingLogo key={logo.id} logo={logo} reduceMotion={reduceMotion} uniformSize />
           ))}
         </div>
 
         <div className="relative z-30 mx-auto flex h-full w-full max-w-6xl items-center justify-center px-4 pt-0 sm:items-start sm:px-10 sm:pt-28 md:pt-36">
-          <div className="w-full max-w-5xl text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-light/90 sm:text-base sm:tracking-[0.16em]">
+          <div className="w-full max-w-5xl pt-20 text-center sm:pt-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-light/90 sm:text-[clamp(0.95rem,1.35vw,1.125rem)] sm:font-medium sm:tracking-[0.12em]">
               A growing library of
             </p>
 
             <div
-              className="relative mx-auto mt-4 h-[220px] w-full max-w-[94vw] overflow-hidden sm:h-[clamp(255px,31vw,420px)] sm:max-w-5xl"
+              className="relative mx-auto mt-2 h-auto w-full max-w-[94vw] overflow-hidden sm:mt-4 sm:h-[clamp(280px,36vw,500px)] sm:max-w-5xl"
             >
-              <div className="flex h-full flex-col items-center justify-center gap-2 sm:hidden">
-                {metrics.map((metric) => (
+              <div className="flex flex-col items-center justify-start gap-1.5 sm:hidden">
+                {mobileMetrics.map((metric) => (
                   <p
                     key={metric}
                     className="whitespace-nowrap text-[clamp(1.2rem,7.8vw,2rem)] font-black leading-[1.02] tracking-tight text-white"
@@ -340,8 +418,8 @@ export default function StickyMetricsSection() {
                 ))}
               </div>
 
-              <MotionDiv className="absolute left-1/2 top-0 hidden -translate-x-1/2 flex-col items-center gap-[clamp(0.95rem,2.2vw,1.7rem)] sm:flex">
-                {metrics.map((metric, index) => (
+              <MotionDiv className="absolute left-1/2 top-0 hidden -translate-x-1/2 flex-col items-center gap-[clamp(0.5rem,1.5vw,1.1rem)] sm:flex">
+                {desktopMetrics.map((metric, index) => (
                   <AnimatedMetricLine
                     key={metric}
                     metric={metric}
@@ -354,6 +432,7 @@ export default function StickyMetricsSection() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   )

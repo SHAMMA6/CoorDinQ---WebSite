@@ -118,8 +118,8 @@ export default function Hero() {
           className="mt-4 max-w-xl px-2 text-sm leading-relaxed text-white/60 sm:text-base md:mt-6 md:text-lg"
           {...fadeUp(0.45)}
         >
-          We design and develop cutting-edge digital products, from robust web
-          platforms to intelligent systems - delivering technology solutions
+          We design and develop cutting edge digital products, from robust web
+          platforms to intelligent systems  delivering technology solutions
           that drive growth and innovation.
         </MotionP>
 
