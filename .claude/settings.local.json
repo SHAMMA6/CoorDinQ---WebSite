@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(npm run:*)",
-      "mcp__Claude_Preview__preview_start"
+      "mcp__Claude_Preview__preview_start",
+      "Bash(grep -r react-router 'C:\\\\Users\\\\YOUSE\\\\Desktop\\\\OurCompany\\\\CoorDinQ WebSite\\\\CoorDinQ' --include=*.json --include=*.jsx --include=*.js)",
+      "Bash(npm ls:*)"
     ]
   }
 }

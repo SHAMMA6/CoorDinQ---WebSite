@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import CardSwap, { Card } from '../reactbits/CardSwap'
 import Button from '../ui/Button'
+import AutoScrollCards from '../ui/AutoScrollCards'
 import heroImage from '../../assets/hero.png'
 import mainLogo from '../../assets/Main Logo.png'
 import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
@@ -51,11 +53,11 @@ function ProjectCardContent({ project }) {
         />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-[#0C1420] via-[#0C1420]/35 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-teal-light/95">
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-teal-light/95">
           {project.category}
         </p>
-        <h3 className="mt-2 text-2xl font-black tracking-tight text-white">{project.title}</h3>
+        <h3 className="mt-1.5 text-lg font-black tracking-tight text-white">{project.title}</h3>
       </div>
     </div>
   )
@@ -66,21 +68,31 @@ export default function ProjectsSection() {
   const [isDesktop, setIsDesktop] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : false,
   )
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : true,
+  )
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 1024px)')
-    const update = () => setIsDesktop(media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
+    const desktopMedia = window.matchMedia('(min-width: 1024px)')
+    const mobileMedia = window.matchMedia('(max-width: 767px)')
+    const updateDesktop = () => setIsDesktop(desktopMedia.matches)
+    const updateMobile = () => setIsMobile(mobileMedia.matches)
+    updateDesktop()
+    updateMobile()
+    desktopMedia.addEventListener('change', updateDesktop)
+    mobileMedia.addEventListener('change', updateMobile)
+    return () => {
+      desktopMedia.removeEventListener('change', updateDesktop)
+      mobileMedia.removeEventListener('change', updateMobile)
+    }
   }, [])
 
-  const staticCards = (
+  const tabletCards = (
     <div className="mt-10 grid gap-4 md:grid-cols-2">
       {projects.map((project) => (
         <article
           key={project.title}
-          className="h-48 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)] md:h-56"
+          className="h-56 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
         >
           <ProjectCardContent project={project} />
         </article>
@@ -100,26 +112,7 @@ export default function ProjectsSection() {
       />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-10">
-        {!isDesktop || reduceMotion ? (
-          <>
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
-                Projects
-              </p>
-              <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
-                Selected product outcomes
-              </h2>
-              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-                Fast-moving teams, clear product direction, and execution that turns
-                concepts into dependable digital products.
-              </p>
-              <div className="mt-6">
-                <Button variant="primary" size="md">Project Page</Button>
-              </div>
-            </div>
-            {staticCards}
-          </>
-        ) : (
+        {isDesktop && !reduceMotion ? (
           <div className="flex items-center gap-12">
             <div className="flex-1">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
@@ -133,7 +126,9 @@ export default function ProjectsSection() {
                 concepts into dependable digital products.
               </p>
               <div className="mt-8">
-                <Button variant="primary" size="lg">Project Page</Button>
+                <Link to="/projects">
+                  <Button variant="primary" size="lg">Project Page</Button>
+                </Link>
               </div>
             </div>
             <div className="flex min-h-[460px] flex-1 items-center justify-center">
@@ -157,6 +152,43 @@ export default function ProjectsSection() {
               </CardSwap>
             </div>
           </div>
+        ) : (
+          <>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
+                Projects
+              </p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
+                Selected product outcomes
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+                Fast-moving teams, clear product direction, and execution that turns
+                concepts into dependable digital products.
+              </p>
+              <div className="mt-6">
+                <Link to="/projects">
+                  <Button variant="primary" size="md">Project Page</Button>
+                </Link>
+              </div>
+            </div>
+
+            {isMobile ? (
+              <div className="mt-10 -mx-6">
+                <AutoScrollCards direction="right" speed={0.4} className="px-6">
+                  {projects.map((project) => (
+                    <article
+                      key={project.title}
+                      className="flex-shrink-0 w-64 h-64 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
+                    >
+                      <ProjectCardContent project={project} />
+                    </article>
+                  ))}
+                </AutoScrollCards>
+              </div>
+            ) : (
+              tabletCards
+            )}
+          </>
         )}
       </div>
     </section>

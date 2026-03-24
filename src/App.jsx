@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import Navbar from './components/layout/Navbar'
-import Hero from './components/sections/Hero'
-import StickyMetricsSection from './components/sections/StickyMetricsSection'
-import ServicesSection from './components/sections/ServicesSection'
-import ProjectsSection from './components/sections/ProjectsSection'
-import CreativeFooter from './components/sections/CreativeFooter'
 import ClickSpark from './components/reactbits/ClickSpark'
+import HomePage from './pages/HomePage'
+import ProjectsPage from './pages/ProjectsPage'
 
 function BackToTop() {
   const [visible, setVisible] = useState(false)
@@ -50,33 +47,26 @@ function BackToTop() {
 }
 
 function App() {
-  const [scrolled, setScrolled] = useState(false)
   const reduceMotion = useReducedMotion()
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   return (
-    <ClickSpark
-      sparkColor="#5CD4C6"
-      sparkCount={reduceMotion ? 0 : 6}
-      sparkRadius={reduceMotion ? 0 : 14}
-      sparkSize={reduceMotion ? 0 : 8}
-      duration={reduceMotion ? 0 : 320}
-      disabled={reduceMotion}
-      className="min-h-screen bg-navy"
-    >
-      <Navbar scrolled={scrolled} />
-      <Hero />
-      <StickyMetricsSection />
-      <ServicesSection />
-      <ProjectsSection />
-      <CreativeFooter />
-      <BackToTop />
-    </ClickSpark>
+    <BrowserRouter>
+      <ClickSpark
+        sparkColor="#5CD4C6"
+        sparkCount={reduceMotion ? 0 : 6}
+        sparkRadius={reduceMotion ? 0 : 14}
+        sparkSize={reduceMotion ? 0 : 8}
+        duration={reduceMotion ? 0 : 320}
+        disabled={reduceMotion}
+        className="min-h-screen bg-navy"
+      >
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+        </Routes>
+        <BackToTop />
+      </ClickSpark>
+    </BrowserRouter>
   )
 }
 

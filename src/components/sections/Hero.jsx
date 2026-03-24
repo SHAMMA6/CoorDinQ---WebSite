@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import AnimatedBackground from './AnimatedBackground'
 import LightRays from '../reactbits/LightRays'
 import Button from '../ui/Button'
@@ -115,16 +116,16 @@ export default function Hero() {
           className="mt-8 flex w-full flex-col justify-center gap-3 px-4 sm:mt-10 sm:w-auto sm:flex-row sm:gap-4 sm:px-0"
           {...fadeUp(0.65)}
         >
-          <a href="#contact">
+          <a href="#contact" onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }}>
             <Button variant="primary" size="lg">
               Get Started
             </Button>
           </a>
-          <a href="#projects">
+          <Link to="/projects">
             <Button variant="secondary" size="lg">
               Our Projects
             </Button>
-          </a>
+          </Link>
         </MotionDiv>
       </div>
     </section>

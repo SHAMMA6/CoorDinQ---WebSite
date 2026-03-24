@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import ScrollStack, { ScrollStackItem } from '../reactbits/ScrollStack'
+import AutoScrollCards from '../ui/AutoScrollCards'
 
 const services = [
   {
@@ -40,13 +41,23 @@ export default function ServicesSection() {
   const [isDesktop, setIsDesktop] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : false,
   )
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : true,
+  )
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 1024px)')
-    const update = () => setIsDesktop(media.matches)
-    update()
-    media.addEventListener('change', update)
-    return () => media.removeEventListener('change', update)
+    const desktopMedia = window.matchMedia('(min-width: 1024px)')
+    const mobileMedia = window.matchMedia('(max-width: 767px)')
+    const updateDesktop = () => setIsDesktop(desktopMedia.matches)
+    const updateMobile = () => setIsMobile(mobileMedia.matches)
+    updateDesktop()
+    updateMobile()
+    desktopMedia.addEventListener('change', updateDesktop)
+    mobileMedia.addEventListener('change', updateMobile)
+    return () => {
+      desktopMedia.removeEventListener('change', updateDesktop)
+      mobileMedia.removeEventListener('change', updateMobile)
+    }
   }, [])
 
   return (
@@ -74,7 +85,29 @@ export default function ServicesSection() {
           </p>
         </div>
 
-        {!isDesktop || reduceMotion ? (
+        {isMobile ? (
+          <div className="mt-10 -mx-6">
+            <AutoScrollCards direction="left" speed={0.4} className="px-6">
+              {services.map((service, index) => (
+                <article
+                  key={service.title}
+                  className="flex-shrink-0 w-64 h-64 rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_16px_40px_rgba(0,0,0,0.24)] backdrop-blur-xl flex flex-col justify-between"
+                >
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-teal-light/90">
+                      {service.kicker}
+                    </p>
+                    <h3 className="mt-2 text-xl font-extrabold text-white">{service.title}</h3>
+                  </div>
+                  <div>
+                    <p className="text-xs leading-relaxed text-white/70">{service.description}</p>
+                    <span className="mt-2 block text-sm font-semibold text-white/25">0{index + 1}</span>
+                  </div>
+                </article>
+              ))}
+            </AutoScrollCards>
+          </div>
+        ) : !isDesktop || reduceMotion ? (
           <div className="mt-12 space-y-4">
             {services.map((service) => (
               <article

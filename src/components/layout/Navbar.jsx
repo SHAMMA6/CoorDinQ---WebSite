@@ -1,19 +1,76 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../ui/Button'
 import qLogo from '../../assets/Main Q.png'
 import coordin from '../../assets/CoorDinQ Logo Wihtout Main Q and Q Shadow .png'
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Home', to: '/', hash: '#home' },
+  { label: 'Projects', to: '/projects' },
 ]
 
 const MotionNav = motion.nav
 const MotionDiv = motion.div
 const MotionImg = motion.img
 const MotionSpan = motion.span
-const MotionA = motion.a
+
+function NavLink({ link, className, onClick }) {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    onClick?.()
+
+    if (link.to === '/' && link.hash) {
+      if (location.pathname === '/') {
+        document.querySelector(link.hash)?.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        navigate('/')
+        setTimeout(() => {
+          document.querySelector(link.hash)?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    } else {
+      navigate(link.to)
+      window.scrollTo(0, 0)
+    }
+  }
+
+  return (
+    <a href={link.to} onClick={handleClick} className={className}>
+      {link.label}
+    </a>
+  )
+}
+
+function ContactButton({ className, onClick }) {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    onClick?.()
+
+    if (location.pathname === '/') {
+      document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/')
+      setTimeout(() => {
+        document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
+  }
+
+  return (
+    <a href="/#contact" onClick={handleClick} className={className}>
+      <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
+        Contact Us
+      </Button>
+    </a>
+  )
+}
 
 export default function Navbar({ scrolled }) {
   const [hoveredQ, setHoveredQ] = useState(false)
@@ -39,8 +96,8 @@ export default function Navbar({ scrolled }) {
           style={{ backdropFilter: 'blur(40px) saturate(1.8)', WebkitBackdropFilter: 'blur(40px) saturate(1.8)' }}
         >
           {/* Logo: CoorDin text + circular Q */}
-          <a
-            href="#home"
+          <Link
+            to="/"
             className="flex items-center shrink-0"
             onMouseEnter={() => setHoveredQ(true)}
             onMouseLeave={() => setHoveredQ(false)}
@@ -76,18 +133,16 @@ export default function Navbar({ scrolled }) {
                 }}
               />
             </div>
-          </a>
+          </Link>
 
           {/* Nav Links - desktop */}
           <div className="hidden sm:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
+              <NavLink
                 key={link.label}
-                href={link.href}
+                link={link}
                 className="px-4 py-2 text-sm font-semibold text-white/70 hover:text-white transition-colors duration-200 rounded-full hover:bg-white/5"
-              >
-                {link.label}
-              </a>
+              />
             ))}
           </div>
 
@@ -114,14 +169,20 @@ export default function Navbar({ scrolled }) {
             />
           </button>
 
-          {/* CTA Button - always visible (desktop only) */}
-          <div className="hidden sm:block">
-            <a href="#contact">
-              <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
-                Contact Us
-              </Button>
-            </a>
-          </div>
+          {/* CTA Button - appears on scroll (desktop only) */}
+          <AnimatePresence>
+            {scrolled && (
+              <MotionDiv
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: 'auto', opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="overflow-hidden hidden sm:block"
+              >
+                <ContactButton />
+              </MotionDiv>
+            )}
+          </AnimatePresence>
         </MotionDiv>
       </MotionNav>
 
@@ -138,24 +199,24 @@ export default function Navbar({ scrolled }) {
           >
             <div className="flex flex-col py-3 px-2">
               {navLinks.map((link, i) => (
-                <MotionA
+                <motion.div
                   key={link.label}
-                  href={link.href}
-                  className="px-4 py-3 text-base font-semibold text-white/70 hover:text-white transition-colors duration-200 rounded-xl hover:bg-white/5"
-                  onClick={() => setMobileOpen(false)}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
                 >
-                  {link.label}
-                </MotionA>
+                  <NavLink
+                    link={link}
+                    className="block px-4 py-3 text-base font-semibold text-white/70 hover:text-white transition-colors duration-200 rounded-xl hover:bg-white/5"
+                    onClick={() => setMobileOpen(false)}
+                  />
+                </motion.div>
               ))}
               <div className="px-4 pt-2 pb-1">
-                <a href="#contact" onClick={() => setMobileOpen(false)}>
-                  <Button variant="primary" size="sm" className="w-full">
-                    Contact Us
-                  </Button>
-                </a>
+                <ContactButton
+                  className="w-full"
+                  onClick={() => setMobileOpen(false)}
+                />
               </div>
             </div>
           </MotionDiv>
