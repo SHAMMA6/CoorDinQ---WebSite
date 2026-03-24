@@ -38,11 +38,11 @@ const services = [
 export default function ServicesSection() {
   const reduceMotion = useReducedMotion()
   const [isDesktop, setIsDesktop] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 768px)').matches : false,
+    typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : false,
   )
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)')
+    const media = window.matchMedia('(min-width: 1024px)')
     const update = () => setIsDesktop(media.matches)
     update()
     media.addEventListener('change', update)
@@ -65,7 +65,7 @@ export default function ServicesSection() {
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
             Services
           </p>
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-white md:text-5xl">
+          <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
             End-to-end digital execution
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
@@ -90,9 +90,8 @@ export default function ServicesSection() {
             ))}
           </div>
         ) : (
-          <div className="mt-14">
+          <div className="mt-14 h-[70vh]">
             <ScrollStack
-              useWindowScroll
               itemDistance={82}
               itemScale={0.05}
               itemStackDistance={28}
@@ -104,7 +103,7 @@ export default function ServicesSection() {
               {services.map((service, index) => (
                 <ScrollStackItem
                   key={service.title}
-                  itemClassName="h-72 rounded-[34px] border border-white/12 bg-gradient-to-br from-[#243447]/88 via-[#1B2838]/95 to-[#111C27]/96 p-8 text-white shadow-[0_26px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl md:h-80"
+                  itemClassName="!h-72 !rounded-[34px] border border-white/12 bg-gradient-to-br from-[#243447]/88 via-[#1B2838]/95 to-[#111C27]/96 !p-8 text-white !shadow-[0_26px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl md:!h-80"
                 >
                   <div className="flex h-full flex-col justify-between">
                     <div>

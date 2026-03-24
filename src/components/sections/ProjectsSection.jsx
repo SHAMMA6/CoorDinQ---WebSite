@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useReducedMotion } from 'framer-motion'
 import CardSwap, { Card } from '../reactbits/CardSwap'
+import Button from '../ui/Button'
 import heroImage from '../../assets/hero.png'
 import mainLogo from '../../assets/Main Logo.png'
 import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
@@ -63,11 +64,11 @@ function ProjectCardContent({ project }) {
 export default function ProjectsSection() {
   const reduceMotion = useReducedMotion()
   const [isDesktop, setIsDesktop] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(min-width: 768px)').matches : false,
+    typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : false,
   )
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 768px)')
+    const media = window.matchMedia('(min-width: 1024px)')
     const update = () => setIsDesktop(media.matches)
     update()
     media.addEventListener('change', update)
@@ -75,11 +76,11 @@ export default function ProjectsSection() {
   }, [])
 
   const staticCards = (
-    <div className="mt-12 grid gap-4 sm:grid-cols-2">
+    <div className="mt-10 grid gap-4 md:grid-cols-2">
       {projects.map((project) => (
         <article
           key={project.title}
-          className="h-56 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
+          className="h-48 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)] md:h-56"
         >
           <ProjectCardContent project={project} />
         </article>
@@ -99,41 +100,62 @@ export default function ProjectsSection() {
       />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 md:px-10">
-        <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
-            Projects
-          </p>
-          <h2 className="mt-4 text-3xl font-black tracking-tight text-white md:text-5xl">
-            Selected product outcomes
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-            Fast-moving teams, clear product direction, and execution that turns
-            concepts into dependable digital products.
-          </p>
-        </div>
-
         {!isDesktop || reduceMotion ? (
-          staticCards
+          <>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
+                Projects
+              </p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
+                Selected product outcomes
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
+                Fast-moving teams, clear product direction, and execution that turns
+                concepts into dependable digital products.
+              </p>
+              <div className="mt-6">
+                <Button variant="primary" size="md">Project Page</Button>
+              </div>
+            </div>
+            {staticCards}
+          </>
         ) : (
-          <div className="mt-8 flex min-h-[460px] items-center justify-center">
-            <CardSwap
-              width={430}
-              height={280}
-              cardDistance={52}
-              verticalDistance={56}
-              delay={4400}
-              pauseOnHover
-              skewAmount={4}
-            >
-              {projects.map((project) => (
-                <Card
-                  key={project.title}
-                  className="overflow-hidden rounded-2xl border border-white/12 bg-[#101B28] shadow-[0_20px_55px_rgba(0,0,0,0.38)]"
-                >
-                  <ProjectCardContent project={project} />
-                </Card>
-              ))}
-            </CardSwap>
+          <div className="flex items-center gap-12">
+            <div className="flex-1">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-teal-light/90">
+                Projects
+              </p>
+              <h2 className="mt-4 text-3xl font-black tracking-tight text-white lg:text-5xl">
+                Selected product outcomes
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-white/65 lg:text-base">
+                Fast-moving teams, clear product direction, and execution that turns
+                concepts into dependable digital products.
+              </p>
+              <div className="mt-8">
+                <Button variant="primary" size="lg">Project Page</Button>
+              </div>
+            </div>
+            <div className="flex min-h-[460px] flex-1 items-center justify-center">
+              <CardSwap
+                width={430}
+                height={280}
+                cardDistance={52}
+                verticalDistance={56}
+                delay={4400}
+                pauseOnHover
+                skewAmount={4}
+              >
+                {projects.map((project) => (
+                  <Card
+                    key={project.title}
+                    className="overflow-hidden rounded-2xl border border-white/12 bg-[#101B28] shadow-[0_20px_55px_rgba(0,0,0,0.38)]"
+                  >
+                    <ProjectCardContent project={project} />
+                  </Card>
+                ))}
+              </CardSwap>
+            </div>
           </div>
         )}
       </div>

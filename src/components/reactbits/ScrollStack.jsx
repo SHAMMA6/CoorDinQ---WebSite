@@ -284,7 +284,7 @@ export default function ScrollStack({
         transform: 'translateZ(0)',
       }}
     >
-      <div className="scroll-stack-inner min-h-screen px-4 pb-[40rem] pt-[16vh] md:px-10">
+      <div className="scroll-stack-inner min-h-screen px-4 pb-[28rem] pt-[16vh] md:px-10">
         {children}
         <div className="scroll-stack-end h-px w-full" />
       </div>

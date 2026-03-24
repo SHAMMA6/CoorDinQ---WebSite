@@ -6,9 +6,7 @@ import coordin from '../../assets/CoorDinQ Logo Wihtout Main Q and Q Shadow .png
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const MotionNav = motion.nav
@@ -116,24 +114,14 @@ export default function Navbar({ scrolled }) {
             />
           </button>
 
-          {/* CTA Button - appears on scroll (desktop only) */}
-          <AnimatePresence>
-            {scrolled && (
-              <MotionDiv
-                initial={{ width: 0, opacity: 0 }}
-                animate={{ width: 'auto', opacity: 1 }}
-                exit={{ width: 0, opacity: 0 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="overflow-hidden hidden sm:block"
-              >
-                <a href="#contact">
-                  <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
-                    Contact Us
-                  </Button>
-                </a>
-              </MotionDiv>
-            )}
-          </AnimatePresence>
+          {/* CTA Button - always visible (desktop only) */}
+          <div className="hidden sm:block">
+            <a href="#contact">
+              <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
+                Contact Us
+              </Button>
+            </a>
+          </div>
         </MotionDiv>
       </MotionNav>
 

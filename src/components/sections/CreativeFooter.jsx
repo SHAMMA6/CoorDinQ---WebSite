@@ -1,3 +1,4 @@
+import Button from '../ui/Button'
 import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 
 const quickLinks = [
@@ -25,32 +26,27 @@ export default function CreativeFooter() {
       />
 
       <div className="relative mx-auto w-full max-w-6xl px-6 py-12 md:px-10 md:py-14">
-        <div className="grid gap-8 md:grid-cols-[1.4fr_1fr_1fr] md:items-start">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:items-start">
           <div>
             <img src={textLogo} alt="CoorDinQ" className="h-10 w-auto object-contain object-left" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70">
               Build faster with a focused digital partner. We design, engineer,
               and grow software products that stay resilient in real-world use.
             </p>
-            <a
-              href="#home"
-              className="mt-5 inline-flex rounded-full border border-teal/35 bg-teal/10 px-5 py-2 text-sm font-semibold text-teal-light transition-colors hover:bg-teal/20"
-            >
-              Back to top
-            </a>
           </div>
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
               Quick Links
             </p>
-            <div className="mt-4 flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-3">
               {quickLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-sm text-white/75 transition-colors hover:text-white"
+                  className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
                 >
+                  <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
                   {link.label}
                 </a>
               ))}
@@ -59,17 +55,47 @@ export default function CreativeFooter() {
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
+              Get in Touch
+            </p>
+            <div className="mt-4 flex flex-col gap-3">
+              <a
+                href="tel:+1234567890"
+                className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
+              >
+                <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
+                +1 (234) 567-890
+              </a>
+              <a
+                href="tel:+0987654321"
+                className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
+              >
+                <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
+                +0 (987) 654-321
+              </a>
+              <a
+                href="mailto:hello@coordinq.com"
+                className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
+              >
+                <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />
+                hello@coordinq.com
+              </a>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
               Connect
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4 flex flex-wrap gap-3">
               {socialLinks.map((social) => (
-                <a
+                <Button
                   key={social.label}
-                  href={social.href}
-                  className="rounded-full border border-white/15 bg-white/[0.03] px-4 py-2 text-xs font-semibold text-white/80 transition-all hover:border-teal/40 hover:text-white"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => window.open(social.href, '_blank')}
                 >
                   {social.label}
-                </a>
+                </Button>
               ))}
             </div>
           </div>

@@ -136,7 +136,7 @@ export default function ClickSpark({
       {!disabled && (
         <canvas
           ref={canvasRef}
-          className="pointer-events-none absolute inset-0 block h-full w-full select-none"
+          className="pointer-events-none absolute inset-0 z-[9999] block h-full w-full select-none"
           aria-hidden="true"
         />
       )}
