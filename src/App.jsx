@@ -4,6 +4,9 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import ClickSpark from './components/reactbits/ClickSpark'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminProjectForm from './pages/admin/AdminProjectForm'
 
 function BackToTop() {
   const [visible, setVisible] = useState(false)
@@ -63,6 +66,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:id" element={<ProjectDetailPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/projects/new" element={<AdminProjectForm />} />
+          <Route path="/admin/projects/:id/edit" element={<AdminProjectForm />} />
         </Routes>
         <BackToTop />
       </ClickSpark>

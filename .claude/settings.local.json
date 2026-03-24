@@ -5,7 +5,11 @@
       "Bash(npm run:*)",
       "mcp__Claude_Preview__preview_start",
       "Bash(grep -r react-router 'C:\\\\Users\\\\YOUSE\\\\Desktop\\\\OurCompany\\\\CoorDinQ WebSite\\\\CoorDinQ' --include=*.json --include=*.jsx --include=*.js)",
-      "Bash(npm ls:*)"
+      "Bash(npm ls:*)",
+      "Bash(xargs grep:*)",
+      "Bash(curl -s http://localhost:3001/api/projects)",
+      "Bash(pg_isready -h localhost -p 5432)",
+      "Bash(node index.js)"
     ]
   }
 }
