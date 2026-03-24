@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Button from '../components/ui/Button'
 import Navbar from '../components/layout/Navbar'
 import AnimatedBackground from '../components/sections/AnimatedBackground'
+import ElectricBorder from '../components/reactbits/ElectricBorder'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 
@@ -70,9 +71,15 @@ function ProjectCard({ project, index }) {
       exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
     >
+      <ElectricBorder
+        color="#3ABFB0"
+        speed={0.8}
+        chaos={0.08}
+        borderRadius={24}
+      >
       <Link
         to={`/projects/${project.id}`}
-        className="group relative block overflow-hidden rounded-3xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:border-white/20 hover:shadow-[0_30px_70px_rgba(0,0,0,0.45)]"
+        className="group relative block overflow-hidden rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-all duration-500 hover:shadow-[0_30px_70px_rgba(0,0,0,0.45)]"
       >
         {/* Image / Gradient hero */}
         <div className="relative h-64 w-full overflow-hidden md:h-72">
@@ -153,11 +160,8 @@ function ProjectCard({ project, index }) {
           </div>
         </div>
 
-        {/* Hover glow */}
-        <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-          style={{ background: 'radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(58, 191, 176, 0.06), transparent 40%)' }}
-        />
       </Link>
+      </ElectricBorder>
     </motion.div>
   )
 }

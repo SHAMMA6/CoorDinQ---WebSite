@@ -9,7 +9,9 @@
       "Bash(xargs grep:*)",
       "Bash(curl -s http://localhost:3001/api/projects)",
       "Bash(pg_isready -h localhost -p 5432)",
-      "Bash(node index.js)"
+      "Bash(node index.js)",
+      "WebFetch(domain:reactbits.dev)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }
