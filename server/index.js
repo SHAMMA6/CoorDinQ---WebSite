@@ -4,14 +4,69 @@ import multer from 'multer'
 import path from 'path'
 import fs from 'fs'
 import { fileURLToPath } from 'url'
+import cookieParser from 'cookie-parser'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 import * as store from './db/store.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
 
-app.use(cors())
+app.set('trust proxy', 1)
+
+const ADMIN_COOKIE_NAME = process.env.ADMIN_COOKIE_NAME || 'coordinq_admin'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || ''
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || ''
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH || ''
+const ADMIN_JWT_SECRET = process.env.ADMIN_JWT_SECRET || ''
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || ''
+const NODE_ENV = process.env.NODE_ENV || 'development'
+
+function buildCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: NODE_ENV === 'production',
+    path: '/',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  }
+}
+
+function signAdminToken(payload) {
+  if (!ADMIN_JWT_SECRET) {
+    throw new Error('ADMIN_JWT_SECRET is required')
+  }
+  return jwt.sign(payload, ADMIN_JWT_SECRET, { expiresIn: '7d' })
+}
+
+function verifyAdminToken(token) {
+  if (!ADMIN_JWT_SECRET) {
+    throw new Error('ADMIN_JWT_SECRET is required')
+  }
+  return jwt.verify(token, ADMIN_JWT_SECRET)
+}
+
+function requireAdmin(req, res, next) {
+  try {
+    const token = req.cookies?.[ADMIN_COOKIE_NAME]
+    if (!token) return res.status(401).json({ error: 'Unauthorized' })
+    const payload = verifyAdminToken(token)
+    req.admin = payload
+    return next()
+  } catch {
+    return res.status(401).json({ error: 'Unauthorized' })
+  }
+}
+
+app.use(
+  cors({
+    origin: FRONTEND_ORIGIN ? [FRONTEND_ORIGIN] : true,
+    credentials: true,
+  }),
+)
 app.use(express.json())
+app.use(cookieParser())
 
 // Serve uploaded files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
@@ -69,6 +124,51 @@ app.get('/api/projects/:id', (req, res) => {
   }
 })
 
+// ── Admin auth ──────────────────────────────────────────────────
+app.post('/api/admin/login', async (req, res) => {
+  try {
+    const { email, password } = req.body || {}
+    if (!email || !password) return res.status(400).json({ error: 'Email and password are required' })
+
+    if (!ADMIN_EMAIL) return res.status(500).json({ error: 'Admin not configured' })
+
+    const emailOk = String(email).trim().toLowerCase() === String(ADMIN_EMAIL).trim().toLowerCase()
+    if (!emailOk) return res.status(401).json({ error: 'Invalid credentials' })
+
+    let passwordOk = false
+    if (ADMIN_PASSWORD_HASH) {
+      passwordOk = await bcrypt.compare(String(password), ADMIN_PASSWORD_HASH)
+    } else {
+      passwordOk = String(password) === String(ADMIN_PASSWORD)
+    }
+
+    if (!passwordOk) return res.status(401).json({ error: 'Invalid credentials' })
+
+    const token = signAdminToken({ email: ADMIN_EMAIL })
+    res.cookie(ADMIN_COOKIE_NAME, token, buildCookieOptions())
+    return res.json({ ok: true, email: ADMIN_EMAIL })
+  } catch (err) {
+    console.error('POST /api/admin/login error:', err.message)
+    return res.status(500).json({ error: 'Login failed' })
+  }
+})
+
+app.post('/api/admin/logout', (_req, res) => {
+  res.clearCookie(ADMIN_COOKIE_NAME, { path: '/' })
+  res.json({ ok: true })
+})
+
+app.get('/api/admin/me', (req, res) => {
+  try {
+    const token = req.cookies?.[ADMIN_COOKIE_NAME]
+    if (!token) return res.status(401).json({ ok: false })
+    const payload = verifyAdminToken(token)
+    return res.json({ ok: true, email: payload.email })
+  } catch {
+    return res.status(401).json({ ok: false })
+  }
+})
+
 // ── Helper: build project data from request ─────────────────────
 function buildProjectData(req) {
   const b = req.body
@@ -117,7 +217,7 @@ function buildProjectData(req) {
 }
 
 // ── POST create project ─────────────────────────────────────────
-app.post('/api/projects', uploadFields, (req, res) => {
+app.post('/api/projects', requireAdmin, uploadFields, (req, res) => {
   try {
     const data = buildProjectData(req)
     const project = store.create(data)
@@ -129,7 +229,7 @@ app.post('/api/projects', uploadFields, (req, res) => {
 })
 
 // ── PUT update project ──────────────────────────────────────────
-app.put('/api/projects/:id', uploadFields, (req, res) => {
+app.put('/api/projects/:id', requireAdmin, uploadFields, (req, res) => {
   try {
     const data = buildProjectData(req)
     const project = store.update(req.params.id, data)
@@ -142,7 +242,7 @@ app.put('/api/projects/:id', uploadFields, (req, res) => {
 })
 
 // ── DELETE project ──────────────────────────────────────────────
-app.delete('/api/projects/:id', (req, res) => {
+app.delete('/api/projects/:id', requireAdmin, (req, res) => {
   try {
     const deleted = store.remove(req.params.id)
     if (!deleted) return res.status(404).json({ error: 'Project not found' })

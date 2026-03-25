@@ -1,16 +1,47 @@
-# React + Vite
+## CoorDinQ Website (Frontend + Backend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Dev (local)
 
-Currently, two official plugins are available:
+- **Frontend**
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+cd "d:\coordinQweb\CoorDinQ---WebSite"
+npm install
+npm run dev
+```
 
-## React Compiler
+- **Backend**
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cd "d:\coordinQweb\CoorDinQ---WebSite\server"
+npm install
+$env:ADMIN_EMAIL="coordinq@gmail.com"
+$env:ADMIN_PASSWORD="ool3alatool"
+$env:ADMIN_JWT_SECRET="change_me"
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Frontend talks to the backend using `/api` in production. In dev, you can set `VITE_API_URL`:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```powershell
+$env:VITE_API_URL="http://localhost:3001/api"
+```
+
+### Admin access
+- Visit `/admin` → you’ll be redirected to `/admin/login` if not signed in.
+- Login using the configured env vars (`ADMIN_EMAIL` / `ADMIN_PASSWORD`).
+
+### Production (Docker, single domain)
+From the repo root (`d:\coordinQweb`):
+
+1) Create `.env` from `.env.example` and set a strong `ADMIN_JWT_SECRET`.
+2) Run:
+
+```bash
+cd "d:\coordinQweb"
+docker compose up -d --build
+```
+
+- Site: `http://localhost/`
+- API: `http://localhost/api`
+- Uploads: `http://localhost/uploads/...`

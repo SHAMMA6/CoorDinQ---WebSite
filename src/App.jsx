@@ -5,7 +5,9 @@ import ClickSpark from './components/reactbits/ClickSpark'
 import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
 import ProjectDetailPage from './pages/ProjectDetailPage'
+import AdminRoute from './components/admin/AdminRoute'
 import AdminDashboard from './pages/admin/AdminDashboard'
+import AdminLogin from './pages/admin/AdminLogin'
 import AdminProjectForm from './pages/admin/AdminProjectForm'
 
 function BackToTop() {
@@ -72,9 +74,12 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/projects/:id" element={<ProjectDetailPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/projects/new" element={<AdminProjectForm />} />
-          <Route path="/admin/projects/:id/edit" element={<AdminProjectForm />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route element={<AdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/projects/new" element={<AdminProjectForm />} />
+            <Route path="/admin/projects/:id/edit" element={<AdminProjectForm />} />
+          </Route>
         </Routes>
         <BackToTop />
       </ClickSpark>

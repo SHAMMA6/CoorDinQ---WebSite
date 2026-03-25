@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 const CATEGORIES = ['Website', 'Software', 'Mobile App', 'Digital Marketing']
 const STATUSES = ['Live', 'In Progress']
@@ -43,7 +43,7 @@ export default function AdminProjectForm() {
   // Load existing project for edit
   useEffect(() => {
     if (!isEdit) return
-    fetch(`${API_URL}/projects/${id}`)
+    fetch(`${API_URL}/projects/${id}`, { credentials: 'include' })
       .then((r) => r.json())
       .then((p) => {
         setForm({
@@ -147,7 +147,7 @@ export default function AdminProjectForm() {
     try {
       const url = isEdit ? `${API_URL}/projects/${id}` : `${API_URL}/projects`
       const method = isEdit ? 'PUT' : 'POST'
-      const res = await fetch(url, { method, body: fd })
+      const res = await fetch(url, { method, body: fd, credentials: 'include' })
 
       if (!res.ok) {
         const data = await res.json()

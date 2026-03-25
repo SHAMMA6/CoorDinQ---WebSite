@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 export default function AdminDashboard() {
   const [projects, setProjects] = useState([])
@@ -15,7 +15,7 @@ export default function AdminDashboard() {
 
   async function fetchProjects() {
     try {
-      const res = await fetch(`${API_URL}/projects`)
+      const res = await fetch(`${API_URL}/projects`, { credentials: 'include' })
       const data = await res.json()
       setProjects(data)
     } catch {
@@ -25,9 +25,18 @@ export default function AdminDashboard() {
     }
   }
 
+  async function handleLogout() {
+    try {
+      await fetch(`${API_URL}/admin/logout`, { method: 'POST', credentials: 'include' })
+    } finally {
+      navigate('/admin/login')
+    }
+  }
+
   async function handleDelete(id) {
     try {
-      await fetch(`${API_URL}/projects/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${API_URL}/projects/${id}`, { method: 'DELETE', credentials: 'include' })
+      if (!res.ok) throw new Error('Delete failed')
       setProjects((prev) => prev.filter((p) => p.id !== id))
       setDeleteId(null)
     } catch {
@@ -48,15 +57,23 @@ export default function AdminDashboard() {
             </Link>
             <h1 className="text-xl font-bold text-white">Admin Dashboard</h1>
           </div>
-          <button
-            onClick={() => navigate('/admin/projects/new')}
-            className="flex items-center gap-2 rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-navy-dark transition hover:bg-teal-light"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            New Project
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/admin/projects/new')}
+              className="flex items-center gap-2 rounded-lg bg-teal px-4 py-2 text-sm font-semibold text-navy-dark transition hover:bg-teal-light"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              New Project
+            </button>
+            <button
+              onClick={handleLogout}
+              className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/70 transition hover:border-white/20 hover:text-white"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 

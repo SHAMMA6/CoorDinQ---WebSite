@@ -3,8 +3,9 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import Navbar from '../components/layout/Navbar'
 import Button from '../components/ui/Button'
+import CreativeFooter from '../components/sections/CreativeFooter'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
+const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -388,31 +389,7 @@ export default function ProjectDetailPage() {
         </div>
       </section>
 
-      {/* ══════════════ CTA FOOTER ══════════════ */}
-      <section className="relative border-t border-white/8 bg-navy-dark py-20">
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: 'radial-gradient(50% 80% at 50% 0%, rgba(58, 191, 176, 0.1) 0%, rgba(17, 28, 39, 0) 70%)' }}
-          aria-hidden="true"
-        />
-        <div className="relative z-10 mx-auto max-w-2xl px-6 text-center">
-          <h2 className="text-3xl font-black tracking-tight text-white md:text-4xl">
-            Have a project in mind?
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-white/55 md:text-base">
-            Let's discuss how we can bring your vision to life with clean engineering
-            and intentional design.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <Link to="/#contact">
-              <Button variant="primary" size="lg">Get in Touch</Button>
-            </Link>
-            <Link to="/projects">
-              <Button variant="secondary" size="lg">View Portfolio</Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <CreativeFooter />
 
       {/* Lightbox */}
       <AnimatePresence>
