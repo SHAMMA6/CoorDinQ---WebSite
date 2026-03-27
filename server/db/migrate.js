@@ -13,6 +13,9 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='projects' AND column_name='video_url') THEN
     ALTER TABLE projects ADD COLUMN video_url VARCHAR(500);
   END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name='projects' AND column_name='website_url') THEN
+    ALTER TABLE projects ADD COLUMN website_url VARCHAR(500);
+  END IF;
 END $$;
 `
 

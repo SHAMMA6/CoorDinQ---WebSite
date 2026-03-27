@@ -122,6 +122,9 @@ export default function ProjectDetailPage() {
     ...(hasFeaturedImage ? [project.featured_image || project.image_url] : []),
     ...(project?.images || []),
   ]
+  const websiteUrl = project?.website_url?.trim()
+    ? (/^https?:\/\//i.test(project.website_url.trim()) ? project.website_url.trim() : `https://${project.website_url.trim()}`)
+    : ''
 
   // Video helpers
   const isYouTubeUrl = (url) => /youtube\.com|youtu\.be/i.test(url || '')
@@ -230,6 +233,28 @@ export default function ProjectDetailPage() {
       {/* ══════════════ CONTENT ══════════════ */}
       <section className="relative py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-6 md:px-10">
+          {websiteUrl && (
+            <motion.div {...(reduceMotion ? {} : fadeUp(0.05))} className="mb-10 md:mb-12">
+              <div className="inline-flex flex-wrap items-center gap-3 rounded-2xl border border-teal/20 bg-teal/[0.06] px-4 py-3">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-teal-light/90">
+                  Website
+                </span>
+                <a
+                  href={websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full border border-teal/30 bg-teal/15 px-3.5 py-1.5 text-sm font-semibold text-teal-light transition-colors hover:bg-teal/25"
+                >
+                  Visit Live Site
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M7 17L17 7" />
+                    <path d="M7 7h10v10" />
+                  </svg>
+                </a>
+              </div>
+            </motion.div>
+          )}
+
           <div className="grid gap-16 lg:grid-cols-[1fr_340px]">
             {/* Left column */}
             <div>

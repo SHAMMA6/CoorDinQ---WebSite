@@ -47,6 +47,13 @@ function verifyAdminToken(token) {
   return jwt.verify(token, ADMIN_JWT_SECRET)
 }
 
+function normalizeWebsiteUrl(value) {
+  const input = String(value || '').trim()
+  if (!input) return null
+  if (/^https?:\/\//i.test(input)) return input
+  return `https://${input}`
+}
+
 function requireAdmin(req, res, next) {
   try {
     const token = req.cookies?.[ADMIN_COOKIE_NAME]
@@ -196,6 +203,7 @@ function buildProjectData(req) {
 
   const tech = typeof b.tech === 'string' ? JSON.parse(b.tech) : (b.tech || [])
   const highlights = typeof b.highlights === 'string' ? JSON.parse(b.highlights) : (b.highlights || [])
+  const website_url = normalizeWebsiteUrl(b.website_url)
 
   return {
     title: b.title,
@@ -213,6 +221,7 @@ function buildProjectData(req) {
     featured_image,
     images,
     video_url,
+    website_url,
   }
 }
 

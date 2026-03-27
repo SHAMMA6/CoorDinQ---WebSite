@@ -24,6 +24,7 @@ export default function AdminProjectForm() {
     highlights: '',
     sort_order: 0,
     video_url: '',
+    website_url: '',
   })
 
   const [featuredFile, setFeaturedFile] = useState(null)
@@ -59,6 +60,7 @@ export default function AdminProjectForm() {
           highlights: (p.highlights || []).join('\n'),
           sort_order: p.sort_order || 0,
           video_url: p.video_url || '',
+          website_url: p.website_url || '',
         })
         if (p.featured_image) setFeaturedPreview(p.featured_image)
         if (p.images?.length) setExistingImages(p.images)
@@ -125,6 +127,7 @@ export default function AdminProjectForm() {
     fd.append('duration', form.duration)
     fd.append('highlights', JSON.stringify(form.highlights.split('\n').map((h) => h.trim()).filter(Boolean)))
     fd.append('sort_order', form.sort_order)
+    fd.append('website_url', form.website_url)
 
     if (featuredFile) {
       fd.append('featured_image_file', featuredFile)
@@ -350,6 +353,16 @@ export default function AdminProjectForm() {
             <Field label="Tech Stack" name="tech" value={form.tech} onChange={handleChange} placeholder="React, Node.js, PostgreSQL" />
             <Field label="Client" name="client" value={form.client} onChange={handleChange} />
           </div>
+
+          {/* Website Link */}
+          <Field
+            label="Website Link"
+            name="website_url"
+            type="url"
+            value={form.website_url}
+            onChange={handleChange}
+            placeholder="https://example.com"
+          />
 
           {/* Year, Duration, Status */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">

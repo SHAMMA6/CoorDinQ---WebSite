@@ -7,14 +7,18 @@ import AutoScrollCards from '../ui/AutoScrollCards'
 import amrImage from '../../assets/amr.png'
 import redseaImage from '../../assets/redsea.png'
 
-const projects = [
+const API_URL = import.meta.env.VITE_API_URL || '/api'
+
+const fallbackProjects = [
   {
+    id: 'fallback-amr',
     title: 'Dr. Amr El Yamany',
     category: 'Website',
     image: amrImage,
     gradient: 'from-[#0d7377]/35 via-[#1a252f]/50 to-[#0E1721]/95',
   },
   {
+    id: 'fallback-redsea',
     title: 'Red Sea Construction',
     category: 'Website',
     image: redseaImage,
@@ -46,12 +50,50 @@ function ProjectCardContent({ project }) {
 
 export default function ProjectsSection() {
   const reduceMotion = useReducedMotion()
+  const [projects, setProjects] = useState(fallbackProjects)
   const [isDesktop, setIsDesktop] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(min-width: 1024px)').matches : false,
   )
   const [isMobile, setIsMobile] = useState(() =>
     typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : true,
   )
+
+  useEffect(() => {
+    let cancelled = false
+
+    fetch(`${API_URL}/projects`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch projects')
+        return res.json()
+      })
+      .then((data) => {
+        if (cancelled || !Array.isArray(data)) return
+
+        const fromAdmin = data
+          .slice(0, 5)
+          .map((project, index) => ({
+            id: project.id ?? `project-${index}`,
+            title: project.title || 'Untitled Project',
+            category: project.category || 'Project',
+            image: project.featured_image || project.image_url || '',
+            gradient: project.gradient || 'from-[#0d7377]/35 via-[#1a252f]/50 to-[#0E1721]/95',
+          }))
+          .filter((project) => Boolean(project.image))
+
+        if (fromAdmin.length > 0) {
+          setProjects(fromAdmin)
+        } else {
+          setProjects(fallbackProjects)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setProjects(fallbackProjects)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   useEffect(() => {
     const desktopMedia = window.matchMedia('(min-width: 1024px)')
@@ -72,7 +114,7 @@ export default function ProjectsSection() {
     <div className="mt-10 grid gap-4 md:grid-cols-2">
       {projects.map((project) => (
         <article
-          key={project.title}
+          key={project.id || project.title}
           className="h-56 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
         >
           <ProjectCardContent project={project} />
@@ -124,7 +166,7 @@ export default function ProjectsSection() {
               >
                 {projects.map((project) => (
                   <Card
-                    key={project.title}
+                    key={project.id || project.title}
                     className="overflow-hidden rounded-2xl border border-white/12 bg-[#101B28] shadow-[0_20px_55px_rgba(0,0,0,0.38)]"
                   >
                     <ProjectCardContent project={project} />
@@ -158,7 +200,7 @@ export default function ProjectsSection() {
                 <AutoScrollCards direction="right" speed={0.4} className="px-6">
                   {projects.map((project) => (
                     <article
-                      key={project.title}
+                      key={project.id || project.title}
                       className="flex-shrink-0 w-64 h-64 overflow-hidden rounded-2xl border border-white/10 shadow-[0_18px_40px_rgba(0,0,0,0.28)]"
                     >
                       <ProjectCardContent project={project} />

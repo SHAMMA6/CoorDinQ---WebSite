@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS projects (
   duration      VARCHAR(40),
   highlights    TEXT[]       NOT NULL DEFAULT '{}',
   image_url     VARCHAR(500),
+  website_url   VARCHAR(500),
   sort_order    INTEGER      NOT NULL DEFAULT 0,
   created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
   updated_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()

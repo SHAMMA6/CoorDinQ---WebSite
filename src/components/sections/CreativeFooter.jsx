@@ -1,20 +1,8 @@
-import Button from '../ui/Button'
 import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 
 const quickLinks = [
   { label: 'Services', href: '#services' },
   { label: 'Projects', href: '#projects' },
-]
-
-const socialLinks = [
-  {
-    label: 'Yousef Abdel Fattah',
-    href: 'https://www.linkedin.com/in/yousef-abdel-fattah-b7bb64293/',
-  },
-  {
-    label: 'Karim Khaled',
-    href: 'https://www.linkedin.com/in/karim-khaled-254764213/',
-  },
 ]
 
 export default function CreativeFooter() {
@@ -30,7 +18,7 @@ export default function CreativeFooter() {
       />
 
       <div className="relative mx-auto w-full max-w-6xl px-6 py-12 md:px-10 md:py-14">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr] md:items-start">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr] md:items-start">
           <div>
             <img src={textLogo} alt="CoorDinQ" className="h-10 w-auto object-contain object-left" />
             <p className="mt-4 max-w-md text-sm leading-relaxed text-white/70">
@@ -84,23 +72,6 @@ export default function CreativeFooter() {
             </div>
           </div>
 
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/55">
-              Connect
-            </p>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {socialLinks.map((social) => (
-                <Button
-                  key={social.label}
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => window.open(social.href, '_blank')}
-                >
-                  {social.label}
-                </Button>
-              ))}
-            </div>
-          </div>
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-4 text-xs text-white/55">
