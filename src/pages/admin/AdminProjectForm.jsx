@@ -335,6 +335,16 @@ export default function AdminProjectForm() {
             </div>
           </div>
 
+          {/* Website URL */}
+          <Field
+            label="Website URL"
+            name="website_url"
+            type="url"
+            value={form.website_url}
+            onChange={handleChange}
+            placeholder="https://example.com"
+          />
+
           {/* Description */}
           <div>
             <label className="mb-1.5 block text-sm font-semibold text-white/70">Description</label>
@@ -353,16 +363,6 @@ export default function AdminProjectForm() {
             <Field label="Tech Stack" name="tech" value={form.tech} onChange={handleChange} placeholder="React, Node.js, PostgreSQL" />
             <Field label="Client" name="client" value={form.client} onChange={handleChange} />
           </div>
-
-          {/* Website Link */}
-          <Field
-            label="Website Link"
-            name="website_url"
-            type="url"
-            value={form.website_url}
-            onChange={handleChange}
-            placeholder="https://example.com"
-          />
 
           {/* Year, Duration, Status */}
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
