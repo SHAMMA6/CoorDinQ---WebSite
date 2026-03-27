@@ -18,6 +18,12 @@ npm install
 $env:ADMIN_EMAIL="coordinq@gmail.com"
 $env:ADMIN_PASSWORD="ool3alatool"
 $env:ADMIN_JWT_SECRET="change_me"
+$env:DB_HOST="localhost"
+$env:DB_PORT="5432"
+$env:DB_NAME="coordinq"
+$env:DB_USER="postgres"
+$env:DB_PASSWORD="postgres"
+npm run db:migrate
 npm run dev
 ```
 
@@ -44,4 +50,4 @@ docker compose up -d --build
 
 - Site: `http://localhost/`
 - API: `http://localhost/api`
-- Uploads: `http://localhost/uploads/...`
+- Media blobs: `http://localhost/api/assets/:id`

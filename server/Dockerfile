@@ -7,7 +7,6 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 COPY . .
-RUN mkdir -p /app/uploads
 
 EXPOSE 3001
 CMD ["node", "index.js"]
