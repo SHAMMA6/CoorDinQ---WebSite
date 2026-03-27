@@ -51,7 +51,7 @@ const fallbackProjects = [
 /* ────────────────────────────────────────────────────────────────
    Project Card — links to detail page
    ──────────────────────────────────────────────────────────────── */
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, isMobile }) {
   const hasFeaturedImage = project.featured_image || project.image_url
   const imageCount = project.images?.length || 0
 
@@ -141,14 +141,28 @@ function ProjectCard({ project, index }) {
     </Link>
   )
 
+  const cardMotionProps = {
+    layout: !isMobile,
+    initial: { opacity: 0, y: isMobile ? 18 : 40 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: isMobile ? 12 : 20, transition: { duration: 0.2 } },
+    transition: isMobile
+      ? { duration: 0.28, ease: [0.22, 1, 0.36, 1] }
+      : { duration: 0.5, delay: index * 0.08, ease: 'easeOut' },
+  }
+
+  if (isMobile) {
+    return (
+      <motion.div {...cardMotionProps}>
+        <div className="rounded-3xl border border-teal/20 shadow-[0_0_26px_rgba(58,191,176,0.16)]">
+          {linkContent}
+        </div>
+      </motion.div>
+    )
+  }
+
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20, transition: { duration: 0.2 } }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
-    >
+    <motion.div {...cardMotionProps}>
       <ElectricBorder color="#3ABFB0" speed={0.8} chaos={0.08} borderRadius={24}>
         {linkContent}
       </ElectricBorder>
@@ -163,6 +177,9 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState(fallbackProjects)
   const [filter, setFilter] = useState('All')
   const [scrolled, setScrolled] = useState(false)
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false,
+  )
   const reduceMotion = useReducedMotion()
 
   const categories = ['All', ...new Set(projects.map((p) => p.category))]
@@ -183,6 +200,14 @@ export default function ProjectsPage() {
       .catch(() => { /* Use fallback data silently */ })
   }, [])
 
+  useEffect(() => {
+    const mobileMedia = window.matchMedia('(max-width: 767px)')
+    const updateViewport = () => setIsMobile(mobileMedia.matches)
+    updateViewport()
+    mobileMedia.addEventListener('change', updateViewport)
+    return () => mobileMedia.removeEventListener('change', updateViewport)
+  }, [])
+
   const filteredProjects = filter === 'All'
     ? projects
     : projects.filter((p) => p.category === filter)
@@ -200,7 +225,7 @@ export default function ProjectsPage() {
           aria-hidden="true"
         />
 
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+        <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
           {/* Back link */}
           <motion.div
             initial={reduceMotion ? {} : { opacity: 0, y: 20 }}
@@ -259,15 +284,16 @@ export default function ProjectsPage() {
       </section>
 
       {/* Projects grid */}
-      <section className="relative pb-28">
-        <div className="mx-auto max-w-6xl px-6 md:px-10">
-          <motion.div layout className="grid gap-6 md:grid-cols-2">
+      <section className="relative overflow-x-clip pb-28">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 md:px-10">
+          <motion.div layout={!isMobile} className="grid gap-6 md:grid-cols-2">
             <AnimatePresence mode="popLayout">
               {filteredProjects.map((project, i) => (
                 <ProjectCard
                   key={project.id || project.title}
                   project={project}
                   index={i}
+                  isMobile={isMobile}
                 />
               ))}
             </AnimatePresence>

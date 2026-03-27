@@ -1,11 +1,25 @@
+import { useLocation, useNavigate } from 'react-router-dom'
 import textLogo from '../../assets/CoorDinQ Logo Wihtout Q Shadow .png'
 
 const quickLinks = [
-  { label: 'Services', href: '#services' },
-  { label: 'Projects', href: '#projects' },
+  { label: 'Home', href: '/' },
+  { label: 'Projects', href: '/projects' },
 ]
 
 export default function CreativeFooter() {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleQuickLinkClick = (e, href) => {
+    e.preventDefault()
+    if (location.pathname === href) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    navigate(href)
+    window.scrollTo(0, 0)
+  }
+
   return (
     <footer id="contact" className="relative overflow-hidden border-t border-white/10 bg-[#0F1A26]">
       <div
@@ -36,6 +50,7 @@ export default function CreativeFooter() {
                 <a
                   key={link.label}
                   href={link.href}
+                  onClick={(e) => handleQuickLinkClick(e, link.href)}
                   className="group flex items-center gap-2 text-sm text-white/70 transition-all duration-300 hover:text-teal-light"
                 >
                   <span className="inline-block h-px w-0 bg-teal-light transition-all duration-300 group-hover:w-4" />

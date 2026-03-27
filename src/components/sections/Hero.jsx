@@ -25,6 +25,7 @@ const typingPhrases = [
   'Engineer the Future.',
   'Code with Confidence.',
 ]
+const WHATSAPP_URL = 'https://wa.me/201012304909'
 
 function TypingText() {
   const [phraseIndex, setPhraseIndex] = useState(0)
@@ -127,7 +128,7 @@ export default function Hero() {
           className="mt-8 flex w-full flex-col justify-center gap-3 px-4 sm:mt-10 sm:w-auto sm:flex-row sm:gap-4 sm:px-0"
           {...fadeUp(0.65)}
         >
-          <a href="#contact" onClick={(e) => { e.preventDefault(); document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' }) }}>
+          <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
             <Button variant="primary" size="lg">
               Get Started
             </Button>

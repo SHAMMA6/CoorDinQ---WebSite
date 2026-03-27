@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Home', to: '/', hash: '#home' },
   { label: 'Portfolio', to: '/projects' },
 ]
+const WHATSAPP_URL = 'https://wa.me/201012304909'
 
 const MotionNav = motion.nav
 const MotionDiv = motion.div
@@ -45,25 +46,14 @@ function NavLink({ link, className, onClick }) {
 }
 
 function ContactButton({ className, onClick }) {
-  const location = useLocation()
-  const navigate = useNavigate()
-
-  const handleClick = (e) => {
-    e.preventDefault()
-    onClick?.()
-
-    if (location.pathname === '/') {
-      document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-    } else {
-      navigate('/')
-      setTimeout(() => {
-        document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    }
-  }
-
   return (
-    <a href="/#contact" onClick={handleClick} className={className}>
+    <a
+      href={WHATSAPP_URL}
+      target="_blank"
+      rel="noreferrer"
+      onClick={onClick}
+      className={className}
+    >
       <Button variant="primary" size="sm" className="whitespace-nowrap ml-1">
         Contact Us
       </Button>
@@ -74,13 +64,16 @@ function ContactButton({ className, onClick }) {
 export default function Navbar({ scrolled }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
+  const compactLogo = scrolled
+
   return (
     <>
       <MotionNav
-        className="fixed top-4 left-1/2 z-50 -translate-x-1/2 w-[calc(100%-2rem)] max-w-fit"
+        className="fixed top-[max(env(safe-area-inset-top),0.75rem)] left-1/2 z-50 w-[calc(100%-2rem)] max-w-fit -translate-x-1/2"
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+        style={{ willChange: 'transform' }}
       >
         <MotionDiv
           className="flex items-center gap-2 rounded-full px-3 py-2 border border-white/[0.08] navbar-glass"
@@ -101,9 +94,9 @@ export default function Navbar({ scrolled }) {
             <MotionDiv
               className="overflow-hidden flex items-center"
               animate={{
-                width: scrolled ? 0 : 'auto',
-                opacity: scrolled ? 0 : 1,
-                marginRight: scrolled ? 0 : 4,
+                width: compactLogo ? 0 : 'auto',
+                opacity: compactLogo ? 0 : 1,
+                marginRight: compactLogo ? 0 : 4,
               }}
               transition={{ duration: 0.4, ease: 'easeInOut' }}
             >

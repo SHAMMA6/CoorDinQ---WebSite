@@ -6,6 +6,7 @@ import Button from '../components/ui/Button'
 import CreativeFooter from '../components/sections/CreativeFooter'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
+const WHATSAPP_URL = 'https://wa.me/201012304909'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 30 },
@@ -364,11 +365,11 @@ export default function ProjectDetailPage() {
 
               {/* CTA */}
               <motion.div {...(reduceMotion ? {} : fadeUp(0.25))}>
-                <Link to="/#contact">
+                <a href={WHATSAPP_URL} target="_blank" rel="noreferrer">
                   <Button variant="primary" size="lg" className="w-full">
                     Start a Similar Project
                   </Button>
-                </Link>
+                </a>
               </motion.div>
             </div>
           </div>
