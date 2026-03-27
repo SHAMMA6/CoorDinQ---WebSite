@@ -27,7 +27,7 @@ const timingConfig = {
     { start: 0.8, end: 0.95 },
   ],
 }
-
+//test
 // Desktop: fewer tiles, identical pixel size + shape (fixed box, uniform radius)
 const DESKTOP_LOGO_PX = 88
 
