@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || '/api'
 export default function AdminDashboard() {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [deleteId, setDeleteId] = useState(null)
   const navigate = useNavigate()
 
@@ -16,10 +17,27 @@ export default function AdminDashboard() {
   async function fetchProjects() {
     try {
       const res = await fetch(`${API_URL}/projects`, { credentials: 'include' })
-      const data = await res.json()
+      let data = null
+      try {
+        data = await res.json()
+      } catch {
+        data = null
+      }
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'Failed to fetch projects')
+      }
+
+      if (!Array.isArray(data)) {
+        throw new Error('Projects response is not an array')
+      }
+
       setProjects(data)
-    } catch {
-      console.error('Failed to fetch projects')
+      setError('')
+    } catch (err) {
+      console.error('Failed to fetch projects', err)
+      setProjects([])
+      setError(err?.message || 'Failed to fetch projects')
     } finally {
       setLoading(false)
     }
@@ -37,12 +55,14 @@ export default function AdminDashboard() {
     try {
       const res = await fetch(`${API_URL}/projects/${id}`, { method: 'DELETE', credentials: 'include' })
       if (!res.ok) throw new Error('Delete failed')
-      setProjects((prev) => prev.filter((p) => p.id !== id))
+      setProjects((prev) => (Array.isArray(prev) ? prev.filter((p) => p.id !== id) : []))
       setDeleteId(null)
     } catch {
       console.error('Failed to delete project')
     }
   }
+
+  const safeProjects = Array.isArray(projects) ? projects : []
 
   return (
     <div className="min-h-screen bg-navy">
@@ -83,28 +103,34 @@ export default function AdminDashboard() {
         <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div className="rounded-xl border border-white/10 bg-navy-light/50 p-5">
             <p className="text-sm text-white/50">Total Projects</p>
-            <p className="mt-1 text-3xl font-bold text-white">{projects.length}</p>
+            <p className="mt-1 text-3xl font-bold text-white">{safeProjects.length}</p>
           </div>
           <div className="rounded-xl border border-white/10 bg-navy-light/50 p-5">
             <p className="text-sm text-white/50">Live</p>
             <p className="mt-1 text-3xl font-bold text-teal">
-              {projects.filter((p) => p.status === 'Live').length}
+              {safeProjects.filter((p) => p.status === 'Live').length}
             </p>
           </div>
           <div className="rounded-xl border border-white/10 bg-navy-light/50 p-5">
             <p className="text-sm text-white/50">In Progress</p>
             <p className="mt-1 text-3xl font-bold text-yellow-400">
-              {projects.filter((p) => p.status === 'In Progress').length}
+              {safeProjects.filter((p) => p.status === 'In Progress').length}
             </p>
           </div>
         </div>
+
+        {error && (
+          <div className="mb-6 rounded-lg border border-red-400/30 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+            {error}
+          </div>
+        )}
 
         {/* Projects List */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-teal border-t-transparent" />
           </div>
-        ) : projects.length === 0 ? (
+        ) : safeProjects.length === 0 ? (
           <div className="rounded-xl border border-dashed border-white/20 py-20 text-center">
             <p className="text-lg text-white/40">No projects yet</p>
             <button
@@ -116,7 +142,7 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <div className="space-y-3">
-            {projects.map((project) => (
+            {safeProjects.map((project) => (
               <div
                 key={project.id}
                 className="group flex items-center gap-4 rounded-xl border border-white/10 bg-navy-light/40 p-4 transition hover:border-teal/30 hover:bg-navy-light/60"

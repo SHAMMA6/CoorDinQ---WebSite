@@ -11,6 +11,31 @@ CREATE TABLE IF NOT EXISTS project_assets (
   created_at    TIMESTAMPTZ  NOT NULL DEFAULT NOW()
 );
 
+-- Ensure projects table exists (for fresh databases)
+CREATE TABLE IF NOT EXISTS projects (
+  id                   SERIAL PRIMARY KEY,
+  title                VARCHAR(120) NOT NULL,
+  category             VARCHAR(60)  NOT NULL,
+  description          TEXT         NOT NULL,
+  tech                 TEXT[]       NOT NULL DEFAULT '{}',
+  gradient             VARCHAR(200) NOT NULL,
+  status               VARCHAR(20)  NOT NULL DEFAULT 'In Progress',
+  year                 INTEGER      NOT NULL,
+  client               VARCHAR(120),
+  duration             VARCHAR(40),
+  highlights           TEXT[]       NOT NULL DEFAULT '{}',
+  sort_order           INTEGER      NOT NULL DEFAULT 0,
+  website_url          VARCHAR(500),
+  featured_asset_id    BIGINT REFERENCES project_assets(id) ON DELETE SET NULL,
+  featured_external_url VARCHAR(1000),
+  images_asset_ids     BIGINT[]     NOT NULL DEFAULT '{}',
+  images_external_urls TEXT[]       NOT NULL DEFAULT '{}',
+  video_asset_id       BIGINT REFERENCES project_assets(id) ON DELETE SET NULL,
+  video_external_url   VARCHAR(1000),
+  created_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW(),
+  updated_at           TIMESTAMPTZ  NOT NULL DEFAULT NOW()
+);
+
 -- Add PostgreSQL media columns to projects
 DO $$
 BEGIN

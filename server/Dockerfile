@@ -9,5 +9,5 @@ RUN npm ci --omit=dev
 COPY . .
 
 EXPOSE 3001
-CMD ["node", "index.js"]
+CMD ["sh", "-c", "node db/migrate.js && node index.js"]
 
