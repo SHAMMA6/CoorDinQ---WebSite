@@ -3,6 +3,7 @@ import Navbar from '../components/layout/Navbar'
 import Hero from '../components/sections/Hero'
 import StickyMetricsSection from '../components/sections/StickyMetricsSection'
 import ServicesSection from '../components/sections/ServicesSection'
+import PartnersSection from '../components/sections/PartnersSection'
 import ProjectsSection from '../components/sections/ProjectsSection'
 import CreativeFooter from '../components/sections/CreativeFooter'
 
@@ -21,6 +22,7 @@ export default function HomePage() {
       <Hero />
       <StickyMetricsSection />
       <ServicesSection />
+      {/* <PartnersSection /> */}
       <ProjectsSection />
       <CreativeFooter />
     </>
