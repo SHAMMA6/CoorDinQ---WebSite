@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../ui/Button'
@@ -63,17 +63,37 @@ function ContactButton({ className, onClick }) {
 
 export default function Navbar({ scrolled }) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [isMobileViewport, setIsMobileViewport] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 767px)').matches : false,
+  )
 
   const compactLogo = scrolled
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+
+    const mediaQuery = window.matchMedia('(max-width: 767px)')
+    const updateMobileState = (event) => setIsMobileViewport(event.matches)
+
+    setIsMobileViewport(mediaQuery.matches)
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateMobileState)
+      return () => mediaQuery.removeEventListener('change', updateMobileState)
+    }
+
+    mediaQuery.addListener(updateMobileState)
+    return () => mediaQuery.removeListener(updateMobileState)
+  }, [])
 
   return (
     <>
       <MotionNav
-        className="fixed top-[max(env(safe-area-inset-top),0.75rem)] left-1/2 z-50 w-[calc(100%-2rem)] max-w-fit -translate-x-1/2"
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        className="fixed top-[max(env(safe-area-inset-top),0.75rem)] left-[max(env(safe-area-inset-left),0.75rem)] right-[max(env(safe-area-inset-right),0.75rem)] z-50 flex justify-center sm:left-1/2 sm:right-auto sm:w-[calc(100%-2rem)] sm:max-w-fit sm:-translate-x-1/2"
+        initial={isMobileViewport ? { opacity: 0 } : { y: -80, opacity: 0 }}
+        animate={isMobileViewport ? { opacity: 1 } : { y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-        style={{ willChange: 'transform' }}
+        style={{ willChange: isMobileViewport ? 'opacity' : 'transform' }}
       >
         <MotionDiv
           className="flex items-center gap-2 rounded-full px-3 py-2 border border-white/[0.08] navbar-glass"
@@ -172,7 +192,7 @@ export default function Navbar({ scrolled }) {
       <AnimatePresence>
         {mobileOpen && (
           <MotionDiv
-            className="fixed top-[4.5rem] left-4 right-4 z-40 sm:hidden rounded-2xl border border-white/[0.08] overflow-hidden navbar-glass"
+            className="fixed top-[calc(max(env(safe-area-inset-top),0.75rem)+3.75rem)] left-[max(env(safe-area-inset-left),1rem)] right-[max(env(safe-area-inset-right),1rem)] z-40 sm:hidden rounded-2xl border border-white/[0.08] overflow-hidden navbar-glass"
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1, backgroundColor: 'rgba(20, 30, 44, 0.75)' }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
