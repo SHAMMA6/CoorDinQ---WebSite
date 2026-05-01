@@ -19,12 +19,16 @@ export const Card = forwardRef(({ customClass, ...rest }, ref) => (
 
 Card.displayName = 'Card'
 
-const makeSlot = (i, distX, distY, total) => ({
-  x: i * distX,
-  y: -i * distY,
-  z: -i * distX * 1.5,
-  zIndex: total - i,
-})
+const makeSlot = (i, distX, distY, total) => {
+  const depth = total <= 2 ? i : i / (total - 1)
+
+  return {
+    x: depth * distX,
+    y: -depth * distY,
+    z: -depth * distX * 1.5,
+    zIndex: total - i,
+  }
+}
 
 const placeNow = (el, slot, skew) =>
   gsap.set(el, {
